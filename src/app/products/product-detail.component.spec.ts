@@ -9,7 +9,6 @@ import { ProductListComponent } from './product-list.component';
 describe('ProductDetailComponent', () => {
   let component: ProductDetailComponent;
   let fixture: ComponentFixture<ProductDetailComponent>;
-
   const routes: Routes = [
     { path: 'products', component: ProductListComponent },
       { 
@@ -18,7 +17,6 @@ describe('ProductDetailComponent', () => {
         component: ProductDetailComponent
        },
   ];
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ProductDetailComponent ],
@@ -34,9 +32,7 @@ describe('ProductDetailComponent', () => {
     fixture.detectChanges();
   });
 
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
 });

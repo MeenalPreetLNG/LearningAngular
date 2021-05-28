@@ -1,4 +1,10 @@
+import { HttpClientModule } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterModule, Routes } from "@angular/router";
 import { IProduct } from "./product";
+import { ProductDetailComponent } from "./product-detail.component";
+import { ProductDetailGuard } from "./product-detail.guard";
 import { ProductListComponent } from "./product-list.component";
 
 
@@ -6,6 +12,33 @@ describe("Product Details",() => {
     let component: ProductListComponent;
     let PRODUCTS: IProduct[];
     let mockHerosService;
+    let fixture: ComponentFixture<ProductListComponent>;
+  
+    const routes: Routes = [
+        { path: 'products', component: ProductListComponent },
+          { 
+            path: 'products/:id', 
+            canActivate: [ProductDetailGuard],
+            component: ProductDetailComponent
+           },
+      ];
+   
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        declarations: [ ProductListComponent ],
+        imports :[ RouterModule.forRoot(routes),
+            HttpClientModule,
+            HttpClientTestingModule]
+      })
+      .compileComponents();
+    });
+  
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ProductListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
 
     beforeEach(() => {
         PRODUCTS =  [
@@ -71,6 +104,5 @@ describe("Product Details",() => {
 
        
     })
-
-
 })
+
