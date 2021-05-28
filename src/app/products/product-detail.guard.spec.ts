@@ -7,8 +7,8 @@ describe('ProductDetailGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-        imports :[RouterTestingModule]
-      });
+      imports :[RouterTestingModule]
+    });
     guard = TestBed.inject(ProductDetailGuard);
   });
 
