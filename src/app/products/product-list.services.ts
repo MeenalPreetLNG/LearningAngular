@@ -30,8 +30,6 @@ export class ProductService{
         );
     }
 
-
-
     private handleError(err: HttpErrorResponse) {
         let errorMessage = '';
         if(err.error instanceof ErrorEvent){
