@@ -1,3 +1,4 @@
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -26,11 +27,12 @@ describe('ProductDetailComponent', () => {
     .compileComponents();
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProductDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(ProductDetailComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
