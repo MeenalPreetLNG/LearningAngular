@@ -60,7 +60,7 @@ describe('AppComponent', () => {
   it(`should have as title 'learn'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('learn');
+    expect(app.pageTitle).toEqual('learn');
   });
 
 
@@ -70,6 +70,5 @@ describe('AppComponent', () => {
     expect(location.path()).toBe('/welcome');
  
   }));
-
 
 });
