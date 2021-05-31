@@ -19,6 +19,6 @@ import { Component } from "@angular/core";
   `
 })
 
-export class AppComponent{
-  pageTitle: string = 'Hill Top'
+export class AppComponent {
+  pageTitle: string = 'learn'
 }
