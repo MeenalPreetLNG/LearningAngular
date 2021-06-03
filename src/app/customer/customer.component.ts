@@ -10,6 +10,7 @@ import { CustomerServiceService } from './customer-service.service';
 export class CustomerComponent implements OnInit {
   customerForm!: FormGroup;
   customer: any = {};
+  listOfCustomers: any = [];
 
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerServiceService) { }
@@ -28,6 +29,8 @@ export class CustomerComponent implements OnInit {
       ]],
       Location: [this.locations[0], Validators.required]
     });
+
+    this.listOfCustomers =  JSON.parse(localStorage.getItem("User") || '{}');
   }
 
   save(): void {
@@ -48,6 +51,8 @@ export class CustomerComponent implements OnInit {
       customers = [customer]
     }
     localStorage.setItem("User", JSON.stringify(customers));
+    
+    this.listOfCustomers.push(customer);
   }
 
 }

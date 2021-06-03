@@ -40,9 +40,9 @@
                        <span *ngIf="customerForm.get('Email')?.errors?.required">
                          Please enter your email.
                        </span>
-                       <!-- <span *ngIf="customerForm.get('Email')?.errors?.email">
+                       <span *ngIf="customerForm.get('Email')?.errors?.email">
                         Please enter your email in correct format
-                       </span> -->
+                       </span>
                      </span>
              </div>
            </div>
@@ -82,7 +82,24 @@
       </div>
     </div>
     <div class="col-md-6">
-
+        <div>
+          <table  class="table" >
+            <thead>
+              <tr>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Location</td>
+              </tr>
+            </thead>
+            <tbody *ngFor="let cust of listOfCustomers">
+              <tr>
+                  <td>{{ cust.Name }}</td>
+                  <td>{{ cust.Email }}</td>
+                  <td>{{ cust.Location }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
     </div>
 
 <br>Dirty: {{ customerForm.dirty }}
