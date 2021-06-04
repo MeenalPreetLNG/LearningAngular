@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
+import { IStudent } from './student';
+import { StudentListComponent } from './student-list.component';
 import { StudentService } from './student-service';
 
 function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
@@ -33,7 +35,8 @@ export class StudentAddComponent implements OnInit {
   };
   constructor(private fb: FormBuilder,
     private studentSerice: StudentService,
-    private router: Router) { }
+    private router: Router,
+    private studentListComponent : StudentListComponent) { }
 
   ngOnInit(): void {
     this.studentForm = this.fb.group({
@@ -67,17 +70,18 @@ export class StudentAddComponent implements OnInit {
     console.log(this.studentForm);
     console.log('Saved: ' + JSON.stringify(this.studentForm.value));
 
-    let student = `{
-      "FirstName": "${this.studentForm.get('firstName')?.value}",
-      "LastName": "${this.studentForm.get('lastName')?.value}",
-      "FormNo": "${this.studentForm.get('formNo')?.value}",
-      "Email": "${this.studentForm.get('emailGroup.email')?.value}",
-      "Course": "${this.studentForm.get('course')?.value}"
-  }`
+    let student = {
+      "FirstName": this.studentForm.get('firstName')?.value,
+      "LastName": this.studentForm.get('lastName')?.value,
+      "FormNo": this.studentForm.get('formNo')?.value,
+      "Email": this.studentForm.get('emailGroup.email')?.value,
+      "Course": this.studentForm.get('course')?.value
+  } as IStudent;
 
     console.log(student);
     this.studentSerice.addStudentToSession(student);
-    window.location.reload()
+    this.studentListComponent.refreshData();
+    // window.location.reload()
     // this.router.navigateByUrl('/students')
   }
 }

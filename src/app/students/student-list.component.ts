@@ -32,12 +32,7 @@ export class StudentListComponent implements OnInit {
     //   error: err => this.errorMessage = err
     // });
 
-    this.sub = this.studentService.getStudentsFromSession().subscribe({
-      next: studentData => this.studentData = studentData,
-      error: err => this.errorMessage = err
-    });
-    // this.studentData = this.studentService.getStudentsFromSession();
-    console.log(this.studentData);
+    this.refreshData();
   }
 
   getSelectedRows(): void {
@@ -48,6 +43,15 @@ export class StudentListComponent implements OnInit {
 
     // alert(`Selected value: ${selectedDataStringPresentation}`);
     alert(`Selected Row : ${JSON.stringify(selectedData)}`)
+  }
+
+  refreshData(): void {
+    this.sub = this.studentService.getStudentsFromSession().subscribe({
+      next: studentData => this.studentData = studentData,
+      error: err => this.errorMessage = err
+    });
+
+    console.log(this.studentData);
   }
 
   ngOnDestory() {

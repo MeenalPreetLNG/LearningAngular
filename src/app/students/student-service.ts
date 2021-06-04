@@ -26,7 +26,7 @@ export class StudentService {
         return of(students);
     }
 
-    addStudentToSession(student: string): void {
+    addStudentToSession(student: IStudent): void {
         let students : IStudent[] = [];
         let errorMessage : string;
 
@@ -35,7 +35,7 @@ export class StudentService {
             error: err => errorMessage = err
           });
 
-        students.push(JSON.parse(student));
+        students.push(student);
         sessionStorage.setItem('students', JSON.stringify(students));
         console.log(students);
     }
