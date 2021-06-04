@@ -72,11 +72,11 @@
                 <div class="col-md-8">
                     <input class="form-control" id="confirmEmailId" type="text" placeholder="Confirm Email"
                         formControlName="confirmEmail" [ngClass]="{'is-invalid': studentForm.get('emailGroup')?.errors ||
-                                            ((studentForm.get('emailGroup.email')?.touched ||
-                                            studentForm.get('emailGroup.email')?.dirty) &&
-                                            !studentForm.get('emailGroup.email')?.valid) }" />
+                                            ((studentForm.get('emailGroup.confirmEmail')?.touched ||
+                                            studentForm.get('emailGroup.confirmEmail')?.dirty) &&
+                                            !studentForm.get('emailGroup.confirmEmail')?.valid) }" />
                     <span class="invalid-feedback">
-                        <span *ngIf="studentForm.get('emailGroup.email')?.errors?.required">
+                        <span *ngIf="studentForm.get('emailGroup.confirmEmail')?.errors?.required">
                             Please enter confirm email address
                         </span>
                         <span *ngIf="studentForm.get('emailGroup')?.errors?.match">
