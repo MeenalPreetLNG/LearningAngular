@@ -32,7 +32,11 @@ export class StudentListComponent implements OnInit {
     //   error: err => this.errorMessage = err
     // });
 
-    this.studentData = this.studentService.getStudentsFromSession();
+    this.sub = this.studentService.getStudentsFromSession().subscribe({
+      next: studentData => this.studentData = studentData,
+      error: err => this.errorMessage = err
+    });
+    // this.studentData = this.studentService.getStudentsFromSession();
     console.log(this.studentData);
   }
 

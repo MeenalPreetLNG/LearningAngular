@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { IStudent } from "./student";
 
@@ -20,14 +20,21 @@ export class StudentService {
 
     }
 
-    getStudentsFromSession(): IStudent[] {
+    getStudentsFromSession(): Observable<IStudent[]> {
         let students = JSON.parse(sessionStorage.getItem('students') ?? '') as IStudent[];
         console.log(students);
-        return students;
+        return of(students);
     }
 
     addStudentToSession(student: string): void {
-        let students = this.getStudentsFromSession();
+        let students : IStudent[] = [];
+        let errorMessage : string;
+
+        this.getStudentsFromSession().subscribe({
+            next: studentData => students = studentData,
+            error: err => errorMessage = err
+          });
+
         students.push(JSON.parse(student));
         sessionStorage.setItem('students', JSON.stringify(students));
         console.log(students);
