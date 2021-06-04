@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerServiceService } from './customer-service.service';
 
+
 @Component({
   selector: 'pm-customer',
   templateUrl: './customer.component.html',
@@ -12,6 +13,8 @@ export class CustomerComponent implements OnInit {
   customer: any = {};
   listOfCustomers: any = [];
   countries: string[] = ['London', 'New York', 'Sydeny']
+  loading: boolean = true;
+
 
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerServiceService) { }
@@ -40,8 +43,6 @@ export class CustomerComponent implements OnInit {
       CustomerCode: Date.now()
     })
     this.customer = Object.assign(this.customer, this.customerForm?.value);
-
-   
     this.addCustomer(this.customer);
     this.customerForm.reset();
     this.listOfCustomers =  JSON.parse(localStorage.getItem("User") || '{}');
