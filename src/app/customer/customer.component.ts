@@ -11,14 +11,16 @@ export class CustomerComponent implements OnInit {
   customerForm!: FormGroup;
   customer: any = {};
   listOfCustomers: any = [];
+  countries: string[] = ['London', 'New York', 'Sydeny']
 
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerServiceService) { }
 
-  locations = ['London', 'New York', 'Sydeny']
+
 
   ngOnInit(): void {
     this.customerForm = this.formBuilder.group({
+      CustomerCode: Date.now(),
       Name: ['',[
         Validators.required,
         Validators.minLength(3)
@@ -27,7 +29,7 @@ export class CustomerComponent implements OnInit {
         Validators.required,
         Validators.email
       ]],
-      Location: [this.locations[0], Validators.required]
+      Location: ['', Validators.required]
     });
 
     this.listOfCustomers =  JSON.parse(localStorage.getItem("User") || '{}');
@@ -37,8 +39,9 @@ export class CustomerComponent implements OnInit {
    // console.log('Saved: ' + JSON.stringify(this.customerForm?.value));
     this.customer = Object.assign(this.customer, this.customerForm?.value);
     this.customerForm.reset();
-
+    
     this.addCustomer(this.customer);
+    this.listOfCustomers =  JSON.parse(localStorage.getItem("User") || '{}');
   }
 
   addCustomer(customer: any[] | FormGroup){
@@ -52,7 +55,22 @@ export class CustomerComponent implements OnInit {
     }
     localStorage.setItem("User", JSON.stringify(customers));
     
-    this.listOfCustomers.push(customer);
   }
+
+  deleteCustomer(id: number){
+    let AllCustomers = [];
+    let AfterRemoval = [];
+    AllCustomers = JSON.parse(localStorage.getItem("User") || '{}');
+    AfterRemoval = AllCustomers.splice(id, 1);
+    localStorage.setItem("User", JSON.stringify(AllCustomers));
+    this.listOfCustomers = AllCustomers;
+  }
+
+
+  deleteAllCustomer(){
+    localStorage.clear();
+    this.listOfCustomers =  JSON.parse(localStorage.getItem("User") || '{}');
+  }
+  
 
 }

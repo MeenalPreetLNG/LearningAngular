@@ -52,13 +52,13 @@
             <div class="col-md-12">
                 <label >Location </label>
                 <br>
-                <div class="form-check-inline" *ngFor="let location of locations">
+                <div class="form-check-inline" *ngFor="let country of countries">
                    <input class="form-check-input" 
                           type="radio" 
-                          value="{{ location }}" 
                           formControlName="Location"
+                          value="{{country}}"
                          > 
-                          {{ location }}
+                          {{ country }}
                 </div>
                       <span class="invalid-feedback">
                        <span *ngIf="customerForm.get('Name')?.errors?.required">
@@ -89,15 +89,26 @@
                 <td>Name</td>
                 <td>Email</td>
                 <td>Location</td>
+                <td></td>
+                <td>
+                  <button class="btn btn-danger" (click)="deleteAllCustomer()" >
+                  Remove All Customer
+                 </button>
+              </td>
               </tr>
             </thead>
-            <tbody *ngFor="let cust of listOfCustomers">
+            <tbody *ngFor="let cust of listOfCustomers; let i = index">
               <tr>
                   <td>{{ cust.Name }}</td>
                   <td>{{ cust.Email }}</td>
                   <td>{{ cust.Location }}</td>
+                  <td>
+                    <button class="btn btn-danger" (click)="deleteCustomer(i)" >
+                      Delete
+                    </button>
+                  </td>
               </tr>
-            </tbody>
+            </tbody> 
           </table>
         </div>
     </div>
