@@ -18,7 +18,7 @@
     </div>
 
     <div class="table-responsive">
-      <table class="table" *ngIf='filetredProducts.length'>
+      <table datatable class="row-border hover" *ngIf='filetredProducts.length'>
         <thead>
           <tr>
             <th>
@@ -33,6 +33,8 @@
             <th>Description</th>
             <th>Price</th>
             <th>5 Star Rating</th>
+            <th>Edit</th>
+            <th>Delete</th>
          </tr>
         </thead>
 
@@ -45,7 +47,7 @@
                        [style.margin.px]='imageMargin'
                         /></td>
               <td>
-                <a [routerLink]="['/products', product.productId]"> 
+                <a [routerLink]="['/products', product.id]"> 
                   {{ product.productName }} 
                 </a>
               </td>
@@ -54,6 +56,17 @@
               <td>{{ product.description }}</td>
               <td>{{ product.price | currency:'INR':'symbol':'1.2-2' }}</td>
               <td><pm-star [rating]='product.starRating'></pm-star></td>
+              <td>
+                <button 
+                        [routerLink]="['/products', product.id, 'edit']">
+                        <i class="fa fa-edit"></i>
+                </button>
+              </td>
+              <td>
+                <button (click)="deleteProduct(product.id)">
+                        <i class="fa fa-trash"></i>
+                </button>
+              </td>
             </tr>
         </tbody>
       </table>

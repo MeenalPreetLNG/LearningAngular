@@ -5,15 +5,22 @@ import { ConvertToSpacesPipes } from '../shared/convert-to-spaces.pipe';
 import { RouterModule } from '@angular/router';
 import { ProductDetailGuard } from './product-detail.guard';
 import { SharedModule } from '../shared/shared.module';
+import { DataTablesModule } from "angular-datatables";
+import { EditProductComponent } from './edit-product.component';
+import { ProductEditGuard } from './edit-product.guard';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
     ProductListComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    EditProductComponent
   ],
   imports: [
+    DataTablesModule,
+    ReactiveFormsModule,
     RouterModule.forChild([
       { path: 'products', component: ProductListComponent },
       { 
@@ -21,6 +28,11 @@ import { SharedModule } from '../shared/shared.module';
         canActivate: [ProductDetailGuard],
         component: ProductDetailComponent
        },
+       {
+        path: 'products/:id/edit',
+        canDeactivate: [ProductEditGuard],
+        component: EditProductComponent
+      },
     ]),
     SharedModule
   ]
