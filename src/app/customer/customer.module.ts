@@ -3,6 +3,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { CustomerComponent } from './customer.component';
+import {TableModule} from 'primeng/table';
+
 
 @NgModule({
   declarations: [
@@ -13,7 +15,8 @@ import { CustomerComponent } from './customer.component';
       { path: 'customer', component: CustomerComponent }
     ]),
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TableModule
   ]
 })
 export class CustomerModule { }

@@ -20,7 +20,7 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerForm = this.formBuilder.group({
-      CustomerCode: Date.now(),
+      CustomerCode: '',
       Name: ['',[
         Validators.required,
         Validators.minLength(3)
@@ -36,16 +36,20 @@ export class CustomerComponent implements OnInit {
   }
 
   save(): void {
-   // console.log('Saved: ' + JSON.stringify(this.customerForm?.value));
+    this.customerForm.patchValue({
+      CustomerCode: Date.now()
+    })
     this.customer = Object.assign(this.customer, this.customerForm?.value);
-    this.customerForm.reset();
-    
+
+   
     this.addCustomer(this.customer);
+    this.customerForm.reset();
     this.listOfCustomers =  JSON.parse(localStorage.getItem("User") || '{}');
   }
 
   addCustomer(customer: any[] | FormGroup){
     console.log("---Here----")
+    
     let customers = [];
     if(localStorage.getItem('User')){
       customers = JSON.parse(localStorage.getItem("User") || '{}');
@@ -57,13 +61,20 @@ export class CustomerComponent implements OnInit {
     
   }
 
-  deleteCustomer(id: number){
+  deleteCustomer(cutomerCode: any){
+    console.log("---Remove----");
+    console.log(cutomerCode);
     let AllCustomers = [];
-    let AfterRemoval = [];
     AllCustomers = JSON.parse(localStorage.getItem("User") || '{}');
-    AfterRemoval = AllCustomers.splice(id, 1);
-    localStorage.setItem("User", JSON.stringify(AllCustomers));
-    this.listOfCustomers = AllCustomers;
+    console.log("---All Customers----");
+    console.log(AllCustomers);
+
+    let filteredPeople = AllCustomers.filter((item: { CustomerCode: Date; }) => item.CustomerCode !== cutomerCode);
+    console.log("---Filtered Customers----");
+    console.log(filteredPeople);
+
+    localStorage.setItem("User", JSON.stringify(filteredPeople));
+    this.listOfCustomers = filteredPeople;
   }
 
 

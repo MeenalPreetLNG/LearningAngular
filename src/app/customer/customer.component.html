@@ -81,7 +81,7 @@
        </form>
       </div>
     </div>
-    <div class="col-md-6">
+    <!-- <div class="col-md-6">
         <div>
           <table  class="table" >
             <thead>
@@ -111,10 +111,44 @@
             </tbody> 
           </table>
         </div>
-    </div>
+    </div> -->
 
 <br>Dirty: {{ customerForm.dirty }}
 <br>Touched: {{ customerForm.touched }}
 <br>Valid: {{ customerForm.valid }}
 <br>Value: {{ customerForm.value | json }}
 </div>
+
+
+<p-table [value]="listOfCustomers" >
+  <ng-template pTemplate="header">
+      <tr>
+        <th [pSortableColumn]="'Name'">Name
+           <p-sortIcon [field]="'Name'"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'Email'">Email
+          <p-sortIcon [field]="'Email'"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'Location'">Location
+          <p-sortIcon [field]="'Location'"></p-sortIcon>
+      </th>
+      </tr>
+  </ng-template>
+  <ng-template class="ui-widget-header" pTemplate="body" let-customer>
+      <tr>
+          <td>{{ customer.Name }}</td>
+          <td>{{ customer.Email }}</td>
+          <td>{{ customer.Location }}</td>
+          <button class="btn btn-danger" (click)="deleteCustomer(customer.CustomerCode)" >
+            Delete
+          </button>
+      </tr>
+  </ng-template>
+</p-table>
+
+
+
+<br>
+<br>
+<br>
+<br>
