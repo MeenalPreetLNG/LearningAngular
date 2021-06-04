@@ -1,0 +1,20 @@
+<div class="card mt-2">
+    <div class="card-header bg-success text-white">
+        <h4>Student Section</h4>
+    </div>
+    <div class="card-body">
+        <div class="card">
+            <pm-student-add></pm-student-add>
+            <div class="card-header">
+                <h5>List of Students</h5>
+            </div>
+            <div class="card-body">
+                <button (click)="getSelectedRows()">Get Selected Rows</button>
+                <ag-grid-angular #agGrid style="height: 500px; width: 100%;" class="ag-theme-alpine"
+                    [rowData]="studentData" [columnDefs]="columnDefs" rowSelection="multiple">
+                </ag-grid-angular>
+            </div>
+        </div>
+
+    </div>
+</div>

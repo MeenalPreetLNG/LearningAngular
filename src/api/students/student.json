@@ -1,0 +1,23 @@
+[
+    {
+        "FirstName" : "ABC",
+        "LastName" : "XYZ",
+        "FormNo" : "123456",
+        "Email" : "abc@gmail.com",
+        "Course" : "MCA"
+    },
+    {
+        "FirstName" : "erg",
+        "LastName" : "eraear",
+        "FormNo" : "45747",
+        "Email" : "abc@gmail.com",
+        "Course" : "MCA"
+    },
+    {
+        "FirstName" : "aerug",
+        "LastName" : "earug",
+        "FormNo" : "25235",
+        "Email" : "sgfg@gmail.com",
+        "Course" : "MCA"
+    }
+]

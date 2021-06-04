@@ -22,6 +22,10 @@ export class ProductService{
 
     }
 
+    getProductsFromSession() : IProduct[] {
+        return JSON.parse(sessionStorage.getItem('products') ?? '') as IProduct[];
+    }
+
 
     getProduct(id: number): Observable<IProduct | undefined> {
         return this.getProducts()
