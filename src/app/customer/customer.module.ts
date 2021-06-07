@@ -12,7 +12,9 @@ import {TableModule} from 'primeng/table';
   ],
   imports: [
     RouterModule.forChild([
-      { path: 'customer', component: CustomerComponent }
+      { path: 'edit/:id', 
+        component: CustomerComponent 
+      }
     ]),
     SharedModule,
     ReactiveFormsModule,

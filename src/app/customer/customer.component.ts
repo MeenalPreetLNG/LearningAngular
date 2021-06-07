@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CustomerServiceService } from './customer-service.service';
@@ -21,7 +22,9 @@ export class CustomerComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-              private customerService: CustomerServiceService) { }
+              private customerService: CustomerServiceService,
+              private router: Router,
+              private route: ActivatedRoute) { }
 
 
   ngOnInit(): void {
@@ -41,27 +44,36 @@ export class CustomerComponent implements OnInit {
 
     this.sub =   this.customerService.allCustomers().subscribe({
       next: customers => {
-        debugger;
         this.listOfCustomers  = customers;
-        debugger;
       },
       error: err => this.errorMessage = err
     });
     
-  
+    this.route.paramMap.subscribe(parameterMap => {
+      const customerCode = parameterMap.get('id');
+      this.getEmployee(customerCode);
+    })
     this.countries = this.customerService.getCountries();
   }
 
-
-
   save(): void {
-    this.customerForm.patchValue({
-      CustomerCode: Date.now()
-    })
+    var custmerCode =  this.customerForm?.value.CustomerCode;  
+    debugger; 
     this.customer = Object.assign(this.customer, this.customerForm?.value);
-    this.addCustomer(this.customer);
-    this.customerForm.reset();
-
+    if(custmerCode !== null || custmerCode !== ""){
+     this.deleteCustomer(custmerCode);
+     this.addCustomer(this.customer);
+     this.customerForm.reset()
+     this.router.navigate(['/edit/0',]);
+    }else{
+      this.customerForm.patchValue({
+        CustomerCode: Date.now()
+      })
+      this.addCustomer(this.customer);
+      this.customerForm.reset();
+    }
+   
+    
     this.sub =   this.customerService.allCustomers().subscribe({
       next: customers => {
         this.listOfCustomers  = customers;
@@ -83,7 +95,7 @@ export class CustomerComponent implements OnInit {
     this.sub = this.customerService.addCustomer(JSON.stringify(customers))
       .subscribe(data => {
         console.log(data);
-      });
+    });
   }
 
   deleteCustomer(customerCode: any){
@@ -102,6 +114,27 @@ export class CustomerComponent implements OnInit {
   deleteAllCustomer(){
     this.customerService.clear();
     this.listOfCustomers =  JSON.parse(localStorage.getItem("User") || '{}');
+  }
+
+ 
+  private getEmployee(emp: any){
+    alert("Called Edit");
+
+    if(emp == 0){
+    this.customerForm.reset();
+    }else{
+      let AllCustomers = [];
+      AllCustomers = JSON.parse(localStorage.getItem("User") || '{}');
+      let filteredPeople = AllCustomers.filter(
+                          (item: { CustomerCode: Date; }) => item.CustomerCode == emp)[0];
+      this.customerForm.patchValue({
+        CustomerCode: filteredPeople.CustomerCode,
+        Name: filteredPeople.Name,
+        Email: filteredPeople.Email,
+        Location: filteredPeople.Location,
+      })
+    }
+   
   }
   
   ngOnDestory(){
