@@ -52,7 +52,7 @@
             <div class="col-md-12">
                 <label >Location </label>
                 <br>
-                <div class="form-check-inline" *ngFor="let country of countries">
+                <div class="form-check-inline" *ngFor="let country of countries | async">
                    <input class="form-check-input" 
                           type="radio" 
                           formControlName="Location"
@@ -81,37 +81,6 @@
        </form>
       </div>
     </div>
-    <!-- <div class="col-md-6">
-        <div>
-          <table  class="table" >
-            <thead>
-              <tr>
-                <td>Name</td>
-                <td>Email</td>
-                <td>Location</td>
-                <td></td>
-                <td>
-                  <button class="btn btn-danger" (click)="deleteAllCustomer()" >
-                  Remove All Customer
-                 </button>
-              </td>
-              </tr>
-            </thead>
-            <tbody *ngFor="let cust of listOfCustomers; let i = index">
-              <tr>
-                  <td>{{ cust.Name }}</td>
-                  <td>{{ cust.Email }}</td>
-                  <td>{{ cust.Location }}</td>
-                  <td>
-                    <button class="btn btn-danger" (click)="deleteCustomer(i)" >
-                      Delete
-                    </button>
-                  </td>
-              </tr>
-            </tbody> 
-          </table>
-        </div>
-    </div> -->
 
 <br>Dirty: {{ customerForm.dirty }}
 <br>Touched: {{ customerForm.touched }}
@@ -126,7 +95,7 @@
 <p-table #dt [value]="listOfCustomers" 
              styleClass="p-datatable-customers" 
             [rowHover]="true"
-            [rows]="2" 
+            [rows]="10" 
             [showCurrentPageReport]="true" 
             [rowsPerPageOptions]="[5,10,25,50]" 
             [paginator]="true" 

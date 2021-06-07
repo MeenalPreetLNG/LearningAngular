@@ -48,7 +48,8 @@ export class ProductListComponent implements OnInit {
         this.sub =   this.productService.getProducts().subscribe({
           next: products => {
             this.products  = products;
-            this.filetredProducts = this.products;
+            debugger;
+            this.filetredProducts = products;
           },
           error: err => this.errorMessage = err
         });
