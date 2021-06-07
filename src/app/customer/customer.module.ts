@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { CustomerComponent } from './customer.component';
 import {TableModule} from 'primeng/table';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,8 @@ import {TableModule} from 'primeng/table';
     ]),
     SharedModule,
     ReactiveFormsModule,
-    TableModule
+    TableModule,
+    BrowserAnimationsModule,
   ]
 })
 export class CustomerModule { }

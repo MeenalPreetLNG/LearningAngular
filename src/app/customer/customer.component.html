@@ -98,36 +98,39 @@
 
 <div *ngIf='listOfCustomers.length'>
   <p-table #dt [value]="listOfCustomers" 
-  styleClass="p-datatable-customers" 
- [rowHover]="true"
- [rows]="10" 
- [showCurrentPageReport]="true" 
- [rowsPerPageOptions]="[5,10,25,50]" 
- [paginator]="true" 
- [loading]="loading"
- currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
- [style]="{'width':'100%','overflow':'auto!important'}"
+      styleClass="p-datatable-customers" 
+    [rowHover]="true"
+    [rows]="10" 
+    [showCurrentPageReport]="true" 
+    [rowsPerPageOptions]="[5,10,25,50]" 
+    [paginator]="true" 
+    [loading]="loading"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+    [style]="{'width':'100%','overflow':'auto!important'}"
+    [globalFilterFields]="['Name']"
  >
-<ng-template pTemplate="caption">
-<div class="table-header">
-List of Customers
-<span class="p-input-icon-left">
- <i class="pi pi-search"></i>
- <input pInputText type="text"   placeholder="Global Search" />
-</span>
-</div>
-</ng-template>
+ <!-- Global Filter User Input
+ <ng-template pTemplate="caption">
+  <div style="text-align: right">
+      <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+      <input type="text" 
+             pInputText size="50" 
+             placeholder="Global Filter" 
+             style="width:auto" 
+             (input)="dt.filterGlobal($event.target.value, 'contains')">
+  </div>
+</ng-template> -->
 <ng-template pTemplate="header">
 <tr>
-<th [pSortableColumn]="'Name'">Name
-<p-sortIcon [field]="'Name'"></p-sortIcon>
-</th>
-<th [pSortableColumn]="'Email'">Email
-<p-sortIcon [field]="'Email'"></p-sortIcon>
-</th>
-<th [pSortableColumn]="'Location'">Location
-<p-sortIcon [field]="'Location'"></p-sortIcon>
-</th>
+  <th [pSortableColumn]="'Name'">Name
+    <p-sortIcon [field]="'Name'"></p-sortIcon>
+  </th>
+  <th [pSortableColumn]="'Email'">Email
+    <p-sortIcon [field]="'Email'"></p-sortIcon>
+  </th>
+  <th [pSortableColumn]="'Location'">Location
+    <p-sortIcon [field]="'Location'"></p-sortIcon>
+  </th>
 </tr>
 </ng-template>
 <ng-template class="ui-widget-header" pTemplate="body" let-customer>
