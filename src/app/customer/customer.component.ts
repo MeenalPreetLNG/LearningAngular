@@ -58,19 +58,22 @@ export class CustomerComponent implements OnInit {
 
   save(): void {
     var custmerCode =  this.customerForm?.value.CustomerCode;  
-    debugger; 
-    this.customer = Object.assign(this.customer, this.customerForm?.value);
-    if(custmerCode !== null || custmerCode !== ""){
-     this.deleteCustomer(custmerCode);
-     this.addCustomer(this.customer);
-     this.customerForm.reset()
-     this.router.navigate(['/edit/0',]);
-    }else{
+
+   
+    if(custmerCode === null || custmerCode === ""){
       this.customerForm.patchValue({
         CustomerCode: Date.now()
       })
+      this.customer = Object.assign(this.customer, this.customerForm?.value);
+      debugger
       this.addCustomer(this.customer);
       this.customerForm.reset();
+    }else{
+      this.deleteCustomer(custmerCode);
+      this.customer = Object.assign(this.customer, this.customerForm?.value);
+      this.addCustomer(this.customer);
+      this.customerForm.reset()
+      this.router.navigate(['/edit/0',]);
     }
    
     
@@ -118,8 +121,6 @@ export class CustomerComponent implements OnInit {
 
  
   private getEmployee(emp: any){
-    alert("Called Edit");
-
     if(emp == 0){
     this.customerForm.reset();
     }else{
