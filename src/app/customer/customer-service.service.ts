@@ -13,6 +13,10 @@ export class CustomerServiceService {
     return of(['London','Sydney', 'New York']);
   }
 
+  getLevels(): Observable<string[]>{
+    return of(['Level-1','Level-2', 'Level-3','Level-4','Level-5']);
+  }
+
 
  allCustomers(): Observable<string[]> {
   let customers = JSON.parse(localStorage.getItem("User") || '{}');

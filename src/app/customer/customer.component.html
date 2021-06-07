@@ -10,15 +10,15 @@
 
             <input type="text" 
                    class="form-control"  
-                   formControlName="CustomerCode"   />
+                   formControlName="CustomerCode" hidden  />
             <div class="col-md-12">
                 <label>Name</label>
                 <input type="text" 
                        class="form-control"  
                        formControlName="Name"  
                        [ngClass]="{'is-invalid':  ((customerForm.get('Name')?.touched ||
-                                                   customerForm.get('Name')?.dirty) &&
-                                                  !customerForm.get('Name')?.valid) }" />
+                                                    customerForm.get('Name')?.dirty) &&
+                                                    !customerForm.get('Name')?.valid) }" />
                       <span class="invalid-feedback">
                        <span *ngIf="customerForm.get('Name')?.errors?.required">
                          Please enter your name.
@@ -61,7 +61,17 @@
                           type="radio" 
                           formControlName="Location"
                           value="{{country}}"
+                          [ngClass]="{'is-invalid': (customerForm.get('Location')?.touched ||
+                                                     customerForm.get('Location')?.dirty) &&
+                                                    !customerForm.get('Location')?.valid }"
                          > 
+
+                         <span class="invalid-feedback">
+                          <span *ngIf="customerForm.get('Location')?.errors?.required">
+                            Please select your location.
+                          </span>
+                          
+                        </span>
                           {{ country }}
                 </div>
                       <span class="invalid-feedback">
@@ -74,6 +84,26 @@
                      </span>
              </div>
            </div>
+
+           <div class="form-group">
+            <label>Level</label>
+            <br>
+            <select class="form-select" 
+            formControlName="Level"  
+            [ngClass]="{'is-invalid': (customerForm.get('Level')?.touched ||
+                                       customerForm.get('Level')?.dirty) &&
+                                      !customerForm.get('Level')?.valid }"   
+                      >
+                <option value="">--Select--</option>
+                <option value="{{level}}" *ngFor="let level of levels | async">{{ level }}</option>
+            </select>
+            <span class="invalid-feedback">
+              <span *ngIf="customerForm.get('Level')?.errors?.required">
+                Please select employee type
+              </span>
+             
+            </span>
+        </div>
 
            <br>
            <br>
@@ -96,8 +126,9 @@
 <br>
 <br>
 
-<div *ngIf='listOfCustomers.length'>
+
   <p-table #dt [value]="listOfCustomers" 
+  *ngIf='listOfCustomers.length'
       styleClass="p-datatable-customers" 
     [rowHover]="true"
     [rows]="10" 
@@ -107,19 +138,20 @@
     [loading]="loading"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
     [style]="{'width':'100%','overflow':'auto!important'}"
-    [globalFilterFields]="['Name']"
+    [globalFilterFields]="['Name','Email','Location', 'Level']"
  >
- <!-- Global Filter User Input
+
  <ng-template pTemplate="caption">
   <div style="text-align: right">
       <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
-      <input type="text" 
-             pInputText size="50" 
-             placeholder="Global Filter" 
-             style="width:auto" 
-             (input)="dt.filterGlobal($event.target.value, 'contains')">
+      <input pInputText 
+             type="text" 
+             (input)="applyFilterGlobal($event, 'contains')" 
+             placeholder="Filter" />
+
+
   </div>
-</ng-template> -->
+</ng-template> 
 <ng-template pTemplate="header">
 <tr>
   <th [pSortableColumn]="'Name'">Name
@@ -131,6 +163,9 @@
   <th [pSortableColumn]="'Location'">Location
     <p-sortIcon [field]="'Location'"></p-sortIcon>
   </th>
+  <th [pSortableColumn]="'Level'">Level
+    <p-sortIcon [field]="'Level'"></p-sortIcon>
+  </th>
 </tr>
 </ng-template>
 <ng-template class="ui-widget-header" pTemplate="body" let-customer>
@@ -138,6 +173,7 @@
 <td>{{ customer.Name }}</td>
 <td>{{ customer.Email }}</td>
 <td>{{ customer.Location }}</td>
+<td>{{ customer.Level }}</td>
 <td>
  <button class="btn btn-danger" (click)="deleteCustomer(customer.CustomerCode)" >
    Delete
@@ -157,7 +193,6 @@
 </ng-template>
 </p-table>
 
-</div>
 
 
 

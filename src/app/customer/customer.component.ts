@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Table } from 'primeng/table/table';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CustomerServiceService } from './customer-service.service';
@@ -19,6 +20,8 @@ export class CustomerComponent implements OnInit {
   sub!: Subscription;
   errorMessage: string = '';
   countries!: Observable<string[]>;
+  levels!: Observable<string[]>;
+  @ViewChild('dt') dt: Table | undefined;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -26,7 +29,9 @@ export class CustomerComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute) { }
 
-
+              applyFilterGlobal($event: any, stringVal: any) {
+                this.dt!.filterGlobal(($event.target as HTMLInputElement).value, 'contains');
+              }
   ngOnInit(): void {
     this.customerForm = this.formBuilder.group({
       CustomerCode: '',
@@ -38,7 +43,8 @@ export class CustomerComponent implements OnInit {
         Validators.required,
         Validators.email
       ]],
-      Location: ['', Validators.required]
+      Location: ['', Validators.required],
+      Level: ['', Validators.required],
     });
 
 
@@ -54,6 +60,7 @@ export class CustomerComponent implements OnInit {
       this.getEmployee(customerCode);
     })
     this.countries = this.customerService.getCountries();
+    this.levels =  this.customerService.getLevels();
   }
 
   save(): void {
@@ -133,6 +140,7 @@ export class CustomerComponent implements OnInit {
         Name: filteredPeople.Name,
         Email: filteredPeople.Email,
         Location: filteredPeople.Location,
+        Level: filteredPeople.Level
       })
     }
    
@@ -143,3 +151,4 @@ export class CustomerComponent implements OnInit {
   }
 
 }
+
