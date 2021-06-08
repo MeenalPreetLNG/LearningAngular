@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Table } from 'primeng/table/table';
@@ -29,7 +29,7 @@ export class CustomerComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute) { }
 
-              applyFilterGlobal($event: Event, stringVal: string) {
+              applyFilterGlobal($event: Event,stringVal: string) {
                 this.dt!.filterGlobal(($event.target as HTMLInputElement).value, 'contains');
               }
   ngOnInit(): void {
@@ -66,7 +66,7 @@ export class CustomerComponent implements OnInit {
   save(): void {
     var custmerCode =  this.customerForm?.value.CustomerCode;  
 
-    if(custmerCode){
+    if(custmerCode === null || custmerCode === ""){
       this.customerForm.patchValue({
         CustomerCode: Date.now()
       })
@@ -102,7 +102,7 @@ export class CustomerComponent implements OnInit {
    
     this.sub = this.customerService.addCustomer(JSON.stringify(customers))
       .subscribe(data => {
-        console.log(data);
+        
     });
   }
 
@@ -113,7 +113,6 @@ export class CustomerComponent implements OnInit {
     
     this.sub = this.customerService.addCustomer(JSON.stringify(filteredPeople))
       .subscribe(data => {
-        console.log(data);
       });
     this.listOfCustomers = filteredPeople;
   }

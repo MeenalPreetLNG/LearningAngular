@@ -25,6 +25,6 @@ export class CustomerServiceService {
 
  addCustomer(customer: string):Observable<any> {
   localStorage.setItem("User", customer);
-  return  of(customer)
+  return  of(customer);
  }
 }
