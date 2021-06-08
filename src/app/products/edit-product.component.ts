@@ -21,10 +21,12 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
   productForm!: FormGroup;
   product!: IProduct;
   private sub!: Subscription;
+  private sub1!: Subscription;
    id : Number =0;
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator! : GenericValidator;
+  countries :any[] =[];
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
@@ -76,10 +78,18 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
         this.getProduct();
       }
     );
+    this.sub1 =   this.productService.getCountries().subscribe({
+      next: countries => {
+      debugger;
+        this.countries  = countries;
+      },
+      error: err => this.errorMessage = err
+    });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.sub1.unsubscribe();
   }
 
   ngAfterViewInit(): void {

@@ -126,12 +126,7 @@
                               disabled
                               selected
                               hidden>Select a Country...</option>
-                      <option value="US">US</option>
-                      <option value="ID">India</option>
-                      <option value="UK">UK</option>
-                      <option value="SA">South Africa</option>
-                      <option value="ID">Indonatia</option>
-                      <option value="SI">Sinagpore</option>
+                              <option *ngFor="let country of countries" value="{{country}}">{{country}}</option>
                     </select>
                     <span class="invalid-feedback">
                       {{ displayMessage.country}}

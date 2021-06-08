@@ -61,6 +61,9 @@ export class ProductService{
         return this.getProducts();
       }
     
+      getCountries(): Observable<string[]>{
+        return of(['US','India', 'UK','New Yark','South Africa','Singapore']);
+      }
 
     private handleError(err: HttpErrorResponse) {
         let errorMessage = '';
