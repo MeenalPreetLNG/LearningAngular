@@ -26,7 +26,7 @@ export class StudentService {
         return of(students);
     }
 
-    getStudentByIdFromSession(id : number) : IStudent {
+    getStudentByIdFromSession(id: number): IStudent {
         let students: IStudent[] = [];
         let errorMessage: string;
 
@@ -42,18 +42,19 @@ export class StudentService {
     addStudentToSession(student: IStudent): void {
         let students: IStudent[] = [];
         let errorMessage: string;
-
+        debugger;
         this.getStudentsFromSession().subscribe({
             next: studentData => students = studentData,
             error: err => errorMessage = err
         });
 
+        student.Id = students.length + 1;
         students.push(student);
         sessionStorage.setItem('students', JSON.stringify(students));
         console.log(students);
     }
 
-    editStudentToSession(student : IStudent) : void{
+    editStudentToSession(student: IStudent): void {
         let students: IStudent[] = [];
         let errorMessage: string;
 

@@ -42,7 +42,6 @@ export class StudentAddComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-
     const param = this.route.snapshot.paramMap.get('id');
     if (param) {
       const id = +param;
@@ -61,7 +60,6 @@ export class StudentAddComponent implements OnInit {
   }
 
   initializeForm(student: IStudent) {
-    debugger;
     this.studentForm = this.fb.group({
       firstName: [student?.FirstName, [Validators.required, Validators.minLength(3)]],
       lastName: [student?.LastName, [Validators.required, Validators.maxLength(50)]],

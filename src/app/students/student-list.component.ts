@@ -4,7 +4,6 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Subscription } from 'rxjs';
 import { BtnCellRenderer } from './button-renderer.component';
 import { IStudent } from './student';
-import { StudentAddComponent } from './student-add.component';
 import { StudentService } from './student-service';
 
 @Component({
@@ -75,9 +74,11 @@ export class StudentListComponent implements OnInit {
   }
 
   onEditButtonClick(params: any) {
-    debugger;
     let student = params.data as IStudent;
-    this.router.navigate(['/students/' + student.Id])
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    }
+    this.router.navigate(['/students/' + student.Id], { replaceUrl: true })
   }
 
   ngOnInit(): void {
