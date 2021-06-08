@@ -110,17 +110,18 @@ export class CustomerComponent implements OnInit {
 
   save(): void {
     var custmerCode =  this.customerForm?.value.CustomerCode;  
-
-    if(custmerCode){
+    if(!custmerCode){
       this.customerForm.patchValue({
         CustomerCode: Date.now()
       })
+
       this.customer = this.customerForm?.value;
       this.addCustomer(this.customer);
       this.customerForm.reset();
     }else{
       this.deleteCustomer(custmerCode);
       this.customer = this.customerForm?.value;
+      debugger
       this.addCustomer(this.customer);
       this.customerForm.reset();
       this.router.navigate(['/edit/0',]);
@@ -137,7 +138,6 @@ export class CustomerComponent implements OnInit {
   }
 
   addCustomer(customer: ICustomer){
-    debugger
     let customers = [];
     if(localStorage.getItem('User')){
       customers = JSON.parse(localStorage.getItem("User") || '{}');
@@ -145,7 +145,6 @@ export class CustomerComponent implements OnInit {
     }else{
       customers = [customer]
     }
-   
     this.sub = this.customerService.addCustomer(JSON.stringify(customers))
       .subscribe(data => {
         
