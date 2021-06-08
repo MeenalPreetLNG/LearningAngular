@@ -66,13 +66,11 @@ export class CustomerComponent implements OnInit {
   save(): void {
     var custmerCode =  this.customerForm?.value.CustomerCode;  
 
-   
     if(custmerCode === null || custmerCode === ""){
       this.customerForm.patchValue({
         CustomerCode: Date.now()
       })
       this.customer = Object.assign(this.customer, this.customerForm?.value);
-      debugger
       this.addCustomer(this.customer);
       this.customerForm.reset();
     }else{
@@ -120,13 +118,6 @@ export class CustomerComponent implements OnInit {
     this.listOfCustomers = filteredPeople;
   }
 
-
-  deleteAllCustomer(){
-    this.customerService.clear();
-    this.listOfCustomers =  JSON.parse(localStorage.getItem("User") || '{}');
-  }
-
- 
   private getEmployee(emp: any){
     if(emp == 0){
     this.customerForm.reset();

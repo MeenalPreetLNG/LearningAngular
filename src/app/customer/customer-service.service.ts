@@ -29,16 +29,4 @@ export class CustomerServiceService {
   localStorage.setItem("User", customer)
   return  of(customer)
  }
-
-  public setItem(key: string, value: string) {
-    localStorage.setItem(key, value);
-  }
-    
-  public getItem(key: string){ 
-    return localStorage.getItem(key)
-  }
- 
-  public clear(){
-    localStorage.clear(); 
-  }
 }
