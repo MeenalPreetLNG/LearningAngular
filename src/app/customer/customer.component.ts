@@ -1,10 +1,14 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Table } from 'primeng/table/table';
+import { merge } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { debounceTime } from 'rxjs/operators';
+import { GenericValidator } from '../shared/generic-validator';
 import { ICustomer } from './customer';
 import { CustomerServiceService } from './customer-service.service';
 
@@ -15,6 +19,8 @@ import { CustomerServiceService } from './customer-service.service';
   styleUrls: ['./customer.component.css']
 })
 export class CustomerComponent implements OnInit {
+  @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
+
   customerForm!: FormGroup;
   customer!: ICustomer;
   listOfCustomers: any = [];
@@ -26,16 +32,39 @@ export class CustomerComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
 
   emailMessage: string = "";
+
+  displayMessage: { [key: string]: string } = {};
+  private validationMessages: { [key: string]: { [key: string]: string } };
+  private genericValidator! : GenericValidator;
+ // formInputElements: any;
   
-  private validationMessages : {[key:string]: string}  = {
-    required: 'Please enter your email address.',
-    email: 'Please enter a valid email address.dsa'
-  };
+
 
   constructor(private formBuilder: FormBuilder,
-              private customerService: CustomerServiceService,
-              private router: Router,
-              private route: ActivatedRoute) { }
+    private customerService: CustomerServiceService,
+    private router: Router,
+    private route: ActivatedRoute) {
+      this.validationMessages = {
+        Name: {
+          required: 'Product name is required.',
+          minlength: 'Product name must be at least three characters.',
+        },
+        Location: {
+          required: 'Please select the Location.'
+        },
+        Level: {
+          required: 'Please select the Level.'
+        },
+        Email:{
+          required: 'Please enter a email.',
+          email: 'Please enter a valid email.',
+        }
+
+      };
+    
+      
+      this.genericValidator = new GenericValidator(this.validationMessages);
+     }
 
   applyFilterGlobal($event: Event,stringVal: string) {
     this.dt!.filterGlobal(($event.target as HTMLInputElement).value, 'contains');
@@ -155,6 +184,21 @@ export class CustomerComponent implements OnInit {
   
   ngOnDestory(){
       this.sub.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    // Watch for the blur event from any input element on the form.
+    // This is required because the valueChanges does not provide notification on blur
+     const controlBlurs: Observable<any>[] = this.formInputElements
+       .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
+
+    // // Merge the blur event observable with the valueChanges observable
+    // // so we only need to subscribe once.
+   merge(this.customerForm.valueChanges).pipe(
+      debounceTime(800)
+    ).subscribe(value => {
+      this.displayMessage = this.genericValidator.processMessages(this.customerForm);
+    });
   }
 
   
