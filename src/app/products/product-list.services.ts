@@ -45,7 +45,7 @@ export class ProductService{
 
         return  of(product)
           .pipe(
-            tap(data => console.log('createProduct: ' + JSON.stringify(data))),
+            tap(data =>  JSON.stringify(data)),
             catchError(this.handleError)
           );
       }

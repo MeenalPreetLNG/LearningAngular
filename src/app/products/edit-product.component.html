@@ -136,15 +136,13 @@
 
               <div class="form-group row mb-2">
                 <div class="offset-md-2 col-md-4">
-                  <button class="btn btn-primary mr-3"
-                          style="width:80px;"
+                  <button class="btn btn-primary mr-3 btn-width"
                           type="submit"
                           [title]="productForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
                           [disabled]="!productForm.valid">
                     Save
                   </button>
-                  <button class="btn btn-outline-secondary mr-3"
-                          style="width:80px;"
+                  <button class="btn btn-outline-secondary mr-3 btn-width"
                           type="button"
                           title="Cancel your edits"
                           [routerLink]="['/products']">

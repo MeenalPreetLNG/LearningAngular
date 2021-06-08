@@ -20,6 +20,5 @@ export class StarComponent implements OnChanges{
   }
 
   onClick(): void{
-    console.log(`The rating ${this.rating} was clicked! `);
   }
 }

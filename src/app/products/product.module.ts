@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { ProductListComponent } from './product-list.component';
 import { ProductDetailComponent } from './product-detail.component';
-import { ConvertToSpacesPipes } from '../shared/convert-to-spaces.pipe';
 import { RouterModule } from '@angular/router';
 import { ProductDetailGuard } from './product-detail.guard';
 import { SharedModule } from '../shared/shared.module';
-import { DataTablesModule } from "angular-datatables";
+import { DataTablesModule } from 'angular-datatables';
 import { EditProductComponent } from './edit-product.component';
 import { ProductEditGuard } from './edit-product.guard';
 import { ReactiveFormsModule } from '@angular/forms';

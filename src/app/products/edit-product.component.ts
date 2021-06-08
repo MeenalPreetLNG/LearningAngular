@@ -20,8 +20,8 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
   errorMessage!: string;
   productForm!: FormGroup;
   product!: IProduct;
-  private sub!: Subscription;
-  private sub1!: Subscription;
+  private subscribeProduct!: Subscription;
+  private subscribeCountry!: Subscription;
    id : Number =0;
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
@@ -72,13 +72,13 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
       price:['',[Validators.required,NumberValidators.range(1,1000)]],
     });
 
-    this.sub = this.route.paramMap.subscribe(
+    this.subscribeProduct = this.route.paramMap.subscribe(
       params => {
        this.id = +Number(params.get('id'));
         this.getProduct();
       }
     );
-    this.sub1 =   this.productService.getCountries().subscribe({
+    this.subscribeCountry =   this.productService.getCountries().subscribe({
       next: countries => {
         this.countries  = countries;
       },
@@ -87,8 +87,8 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
-    this.sub1.unsubscribe();
+    this.subscribeProduct.unsubscribe();
+    this.subscribeCountry.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -121,7 +121,7 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
       description: this.product.description,
       country :this.product.country,
       price : this.product.price,
-      productType: (this.product.productType == null || this.product.productType == '' || this.product.productType == undefined) ? 'Type1' : this.product.productType
+      productType: (this.product.productType) ? 'Type1' : this.product.productType
     });
     }
     this.pageTitle = `Edit Product: ${this.product.productName}`;

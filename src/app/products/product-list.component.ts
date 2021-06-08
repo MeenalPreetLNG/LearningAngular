@@ -31,7 +31,6 @@ export class ProductListComponent implements OnInit {
 
     set listFilter(value: string){
       this._listFilter = value;
-      console.log("In Setter", value);
       this.filetredProducts = this.performFilter(value);
     }
 
