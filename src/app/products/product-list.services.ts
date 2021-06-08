@@ -15,7 +15,6 @@ export class ProductService{
     constructor(private http: HttpClient) {}
 
     getProducts(): Observable<IProduct[]> {
-        debugger;
         let products : Observable<IProduct[]> =  of(JSON.parse(localStorage.getItem("my-products") || '{}'));
      return  products.pipe(
         tap(data =>  localStorage.setItem("my-products",JSON.stringify(data))),
@@ -32,7 +31,6 @@ export class ProductService{
     }
 
     createOrUpdateProduct(product: IProduct): Observable<IProduct> {
-        debugger;
         var products : IProduct[] = localStorage.getItem("my-products")!=null ?  JSON.parse(localStorage.getItem("my-products") || '[]') : new Array();
         if(product.id==0)
         {
@@ -53,7 +51,6 @@ export class ProductService{
       }
 
       deleteProduct(id : Number) : Observable<IProduct[]>{
-          debugger;
         var products : IProduct[] = localStorage.getItem("my-products")!=null ?  JSON.parse(localStorage.getItem("my-products") || '[]') : new Array();
         let index = products.indexOf(products.find(t=>t.id==id) as IProduct);
         products.splice(index,1);

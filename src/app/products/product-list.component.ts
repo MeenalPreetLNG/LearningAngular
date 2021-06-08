@@ -46,7 +46,6 @@ export class ProductListComponent implements OnInit {
     }
 
     ngOnInit(): void{
-      debugger;
       this.getProducts();
     }
 
@@ -56,7 +55,6 @@ export class ProductListComponent implements OnInit {
     getProducts():void{
       this.sub =   this.productService.getProducts().subscribe({
         next: products => {
-        debugger;
           this.products  = products;
           this.filetredProducts = this.products;
         },
@@ -83,7 +81,6 @@ export class ProductListComponent implements OnInit {
     }
 
     onSaveComplete() : void{
-      debugger;
       this.getProducts();
     }
 }

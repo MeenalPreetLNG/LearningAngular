@@ -80,7 +80,6 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
     );
     this.sub1 =   this.productService.getCountries().subscribe({
       next: countries => {
-      debugger;
         this.countries  = countries;
       },
       error: err => this.errorMessage = err
@@ -108,7 +107,6 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
   }
 
   getProduct(): void {
-    debugger;
     if(this.id >0)
     {
     let products : IProduct[] =JSON.parse(localStorage.getItem("my-products") || '{}');
@@ -131,7 +129,6 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
   }
 
   saveProduct() : void{
-    debugger;
     if (this.productForm.valid) {
       if (this.productForm.dirty) {
         const p = { ...this.product, ...this.productForm.value };
