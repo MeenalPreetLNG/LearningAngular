@@ -11,6 +11,7 @@ import { ProductListComponent } from "./product-list.component";
 import { ProductService } from "./product-list.services";
 import { Location } from '@angular/common';
 import { DebugElement } from "@angular/core";
+import { GlobalConstants } from "../common/GlobalConstants";
 
 
 describe("Product Details",() => {
@@ -156,18 +157,18 @@ describe("Product Details",() => {
       it('should test redirection to default to products', fakeAsync(() => {
         router.navigate(['products']);
         tick();
-        expect(location.path()).toBe('/products');
+        expect(location.path()).toBe(GlobalConstants.ProductsLink);
       }));
 
 
       it('should to products if id > 1', fakeAsync(() => {
         const id = PRODUCTS[1].id;
-        const path = '/products/' + 0;
+        const path = GlobalConstants.ProductLink + 0;
         router.navigate([path]);
         tick();
 
 
-        expect(location.path()).toBe('/products');
+        expect(location.path()).toBe(GlobalConstants.ProductsLink);
       }));
 
     })
