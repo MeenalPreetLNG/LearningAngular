@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Table } from 'primeng/table/table';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { ICustomer } from './customer';
 import { CustomerServiceService } from './customer-service.service';
 
 
@@ -14,7 +15,7 @@ import { CustomerServiceService } from './customer-service.service';
 })
 export class CustomerComponent implements OnInit {
   customerForm!: FormGroup;
-  customer: any = {};
+  customer!: ICustomer;
   listOfCustomers: any = [];
   loading: boolean = true;
   sub!: Subscription;
@@ -70,12 +71,12 @@ export class CustomerComponent implements OnInit {
       this.customerForm.patchValue({
         CustomerCode: Date.now()
       })
-      this.customer = Object.assign(this.customer, this.customerForm?.value);
+      this.customer = this.customerForm?.value;
       this.addCustomer(this.customer);
       this.customerForm.reset();
     }else{
       this.deleteCustomer(custmerCode);
-      this.customer = Object.assign(this.customer, this.customerForm?.value);
+      this.customer = this.customerForm?.value;
       this.addCustomer(this.customer);
       this.customerForm.reset();
       this.router.navigate(['/edit/0',]);
@@ -91,7 +92,8 @@ export class CustomerComponent implements OnInit {
    
   }
 
-  addCustomer(customer: any[] | FormGroup){
+  addCustomer(customer: ICustomer){
+    debugger
     let customers = [];
     if(localStorage.getItem('User')){
       customers = JSON.parse(localStorage.getItem("User") || '{}');
