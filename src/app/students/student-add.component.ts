@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 import { IStudent } from './student';
 import { StudentListComponent } from './student-list.component';
@@ -25,9 +25,12 @@ function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
   templateUrl: './student-add.component.html',
   styleUrls: ['./student-add.component.css']
 })
+
 export class StudentAddComponent implements OnInit {
   studentForm!: FormGroup;
   emailMessage!: string;
+  student!: IStudent;
+  title: string = 'Add New Student';
 
   private validationMessages: any = {
     required: 'Please enter your email address.',
@@ -35,20 +38,19 @@ export class StudentAddComponent implements OnInit {
   };
   constructor(private fb: FormBuilder,
     private studentSerice: StudentService,
-    private router: Router,
-    private studentListComponent : StudentListComponent) { }
+    private studentListComponent: StudentListComponent,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.studentForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(3)]],
-      lastName: ['', [Validators.required, Validators.maxLength(50)]],
-      formNo: ['', [Validators.required]],
-      emailGroup: this.fb.group({
-        email: ['', [Validators.required, Validators.email]],
-        confirmEmail: ['', Validators.required]
-      }, { validator: emailMatcher }),
-      course: ['', Validators.required]
-    })
+
+    const param = this.route.snapshot.paramMap.get('id');
+    if (param) {
+      const id = +param;
+      this.student = this.studentSerice.getStudentByIdFromSession(id);
+      this.title = 'Edit Student';
+    }
+
+    this.initializeForm(this.student);
 
     const emailControl = this.studentForm.get('emailGroup.email');
     emailControl?.valueChanges.pipe(
@@ -56,6 +58,20 @@ export class StudentAddComponent implements OnInit {
     ).subscribe(
       value => this.setMessage(emailControl)
     );
+  }
+
+  initializeForm(student: IStudent) {
+    debugger;
+    this.studentForm = this.fb.group({
+      firstName: [student?.FirstName, [Validators.required, Validators.minLength(3)]],
+      lastName: [student?.LastName, [Validators.required, Validators.maxLength(50)]],
+      formNo: [student?.FormNo, [Validators.required]],
+      emailGroup: this.fb.group({
+        email: [student?.Email, [Validators.required, Validators.email]],
+        confirmEmail: [student?.Email, Validators.required]
+      }, { validator: emailMatcher }),
+      course: [student?.Course, Validators.required]
+    })
   }
 
   setMessage(c: AbstractControl): void {
@@ -70,16 +86,23 @@ export class StudentAddComponent implements OnInit {
     console.log(this.studentForm);
     console.log('Saved: ' + JSON.stringify(this.studentForm.value));
 
-    let student = {
+    let studentEdited = {
       "FirstName": this.studentForm.get('firstName')?.value,
       "LastName": this.studentForm.get('lastName')?.value,
       "FormNo": this.studentForm.get('formNo')?.value,
       "Email": this.studentForm.get('emailGroup.email')?.value,
       "Course": this.studentForm.get('course')?.value
-  } as IStudent;
+    } as IStudent;
 
-    console.log(student);
-    this.studentSerice.addStudentToSession(student);
+    console.log(studentEdited);
+    if (this.student == null) {
+      this.studentSerice.addStudentToSession(studentEdited);
+    }
+    else {
+      studentEdited.Id = this.student.Id;
+      this.studentSerice.editStudentToSession(studentEdited);
+    }
+
     this.studentListComponent.refreshData();
     // window.location.reload()
     // this.router.navigateByUrl('/students')

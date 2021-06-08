@@ -53,7 +53,14 @@ export class ProductListComponent implements OnInit {
     //   error: err => this.errorMessage = err
     // });
 
-    this.products = this.filetredProducts = this.productService.getProductsFromSession();
+    this.sub = this.productService.getProductsFromSession().subscribe({
+      next: products => {
+        this.products = products;
+        this.filetredProducts = this.products;
+      },
+      error: err => this.errorMessage = err
+    });
+    console.log(this.products);
   }
 
   ngOnDestory() {

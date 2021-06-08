@@ -1,5 +1,5 @@
 <div class="card-header">
-    <h5>Add New Student</h5>
+    <h5>{{title}}</h5>
 </div>
 <div class="card-body">
     <form novalidate (ngSubmit)="save()" [formGroup]="studentForm">
@@ -123,5 +123,5 @@
         </div>
 
     </form>
-    <br>Value: {{ studentForm.value | json }}
+    <!-- <br>Value: {{ studentForm.value | json }} -->
 </div>

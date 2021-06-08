@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AgGridAngular } from 'ag-grid-angular';
 import { Subscription } from 'rxjs';
+import { BtnCellRenderer } from './button-renderer.component';
 import { IStudent } from './student';
+import { StudentAddComponent } from './student-add.component';
 import { StudentService } from './student-service';
 
 @Component({
@@ -11,20 +14,71 @@ import { StudentService } from './student-service';
 })
 
 export class StudentListComponent implements OnInit {
-  constructor(private studentService: StudentService) { }
-  @ViewChild('agGrid') agGrid!: AgGridAngular;
-
   sub!: Subscription;
   studentData: IStudent[] = [];
   errorMessage: string = "";
+  frameworkComponents: any;
+
+  constructor(private studentService: StudentService,
+    private router: Router) {
+    this.frameworkComponents = {
+      buttonRenderer: BtnCellRenderer,
+    }
+  }
+  @ViewChild('agGrid') agGrid!: AgGridAngular;
+
+
+  defaultColDef = {
+    sortable: true,
+    filter: true,
+    suppressSizeToFit: true
+  };
+
   columnDefs = [
-    { field: 'FirstName' },
-    { field: 'LastName' },
-    { field: 'FormNo' },
+    // { field: 'Id', checkboxSelection: true, width:'100px' },
+    { field: 'FirstName', checkboxSelection: true },
+    { field: 'LastName', width: '150px' },
+    { field: 'FormNo', width: '150px' },
     { field: 'Email' },
-    { field: 'Course' },
+    { field: 'Course', width: '150px' },
+    {
+      field: 'Edit',
+      cellRenderer: 'buttonRenderer',
+      cellRendererParams: {
+        onClick: this.onEditButtonClick.bind(this),
+        label: 'Edit',
+        cls: 'btn btn-primary btn-sm fa fa-edit'
+      },
+      width: '80px',
+      filter: false,
+      sortable: false
+    },
+    {
+      field: 'Delete',
+      cellRenderer: 'buttonRenderer',
+      cellRendererParams: {
+        onClick: this.onDeleteButtonClick.bind(this),
+        label: 'Delete',
+        cls: 'btn btn-danger btn-sm fa fa-remove'
+      },
+      width: '100px',
+      filter: false,
+      sortable: false
+    }
   ];
 
+  onDeleteButtonClick(params: any) {
+    debugger;
+    let student = params.data as IStudent
+    this.studentService.deleteStudentFromSession(student);
+    this.refreshData();
+  }
+
+  onEditButtonClick(params: any) {
+    debugger;
+    let student = params.data as IStudent;
+    this.router.navigate(['/students/' + student.Id])
+  }
 
   ngOnInit(): void {
     // this.sub = this.studentService.getStudents().subscribe({
@@ -33,6 +87,7 @@ export class StudentListComponent implements OnInit {
     // });
 
     this.refreshData();
+
   }
 
   getSelectedRows(): void {
@@ -57,5 +112,7 @@ export class StudentListComponent implements OnInit {
   ngOnDestory() {
     this.sub.unsubscribe();
   }
+
+
 
 }

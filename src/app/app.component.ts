@@ -25,27 +25,30 @@ import { IStudent } from "./students/student";
 export class AppComponent implements OnInit {
   pageTitle: string = 'learn'
   studentData: IStudent[] = [{
-      "FirstName": "ABC",
-      "LastName": "XYZ",
-      "FormNo": "123456",
-      "Email": "abc@gmail.com",
-      "Course": "MCA"
-    },
-    {
-      "FirstName": "erg",
-      "LastName": "eraear",
-      "FormNo": "45747",
-      "Email": "abc@gmail.com",
-      "Course": "MCA"
-    },
-    {
-      "FirstName": "aerug",
-      "LastName": "earug",
-      "FormNo": "25235",
-      "Email": "sgfg@gmail.com",
-      "Course": "MCA"
-    }]
-  productData : IProduct[] = [
+    "Id": 1,
+    "FirstName": "ABC",
+    "LastName": "XYZ",
+    "FormNo": "123456",
+    "Email": "abc@gmail.com",
+    "Course": "MCA"
+  },
+  {
+    "Id": 2,
+    "FirstName": "erg",
+    "LastName": "eraear",
+    "FormNo": "45747",
+    "Email": "abc@gmail.com",
+    "Course": "BCA"
+  },
+  {
+    "Id": 3,
+    "FirstName": "aerug",
+    "LastName": "earug",
+    "FormNo": "25235",
+    "Email": "sgfg@gmail.com",
+    "Course": "MBA"
+  }]
+  productData: IProduct[] = [
     {
       "productId": 1,
       "productName": "Leaf Rake",
@@ -99,14 +102,14 @@ export class AppComponent implements OnInit {
   ]
 
   ngOnInit(): void {
-    if(sessionStorage.getItem('students') == null)
+    if (sessionStorage.getItem('students') == null)
       sessionStorage.setItem('students', JSON.stringify(this.studentData));
 
-      if(sessionStorage.getItem('products') == null)
-      sessionStorage.setItem('products', JSON.stringify(this.studentData));
+    if (sessionStorage.getItem('products') == null)
+      sessionStorage.setItem('products', JSON.stringify(this.productData));
   }
 
-  ngOnDestroy(): void{
+  ngOnDestroy(): void {
     sessionStorage.removeItem('students');
     sessionStorage.removeItem('products');
     console.log('session item removed');

@@ -10,8 +10,15 @@
             </div>
             <div class="card-body">
                 <button (click)="getSelectedRows()">Get Selected Rows</button>
-                <ag-grid-angular #agGrid style="height: 500px; width: 100%;" class="ag-theme-alpine"
-                    [rowData]="studentData" [columnDefs]="columnDefs" rowSelection="multiple">
+                <ag-grid-angular 
+                    #agGrid 
+                    style="height: 300px; width: 100%;" 
+                    class="ag-theme-alpine"
+                    [defaultColDef]="defaultColDef"
+                    [rowData]="studentData" 
+                    [columnDefs]="columnDefs" 
+                    rowSelection="multiple"
+                    [frameworkComponents] = "frameworkComponents">
                 </ag-grid-angular>
             </div>
         </div>

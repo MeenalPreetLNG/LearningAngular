@@ -26,18 +26,60 @@ export class StudentService {
         return of(students);
     }
 
-    addStudentToSession(student: IStudent): void {
-        let students : IStudent[] = [];
-        let errorMessage : string;
+    getStudentByIdFromSession(id : number) : IStudent {
+        let students: IStudent[] = [];
+        let errorMessage: string;
 
         this.getStudentsFromSession().subscribe({
             next: studentData => students = studentData,
             error: err => errorMessage = err
-          });
+        });
+
+        let index = students.findIndex(obj => obj.Id == id)
+        return students[index];
+    }
+
+    addStudentToSession(student: IStudent): void {
+        let students: IStudent[] = [];
+        let errorMessage: string;
+
+        this.getStudentsFromSession().subscribe({
+            next: studentData => students = studentData,
+            error: err => errorMessage = err
+        });
 
         students.push(student);
         sessionStorage.setItem('students', JSON.stringify(students));
         console.log(students);
+    }
+
+    editStudentToSession(student : IStudent) : void{
+        let students: IStudent[] = [];
+        let errorMessage: string;
+
+        this.getStudentsFromSession().subscribe({
+            next: studentData => students = studentData,
+            error: err => errorMessage = err
+        });
+        debugger;
+        let index = students.findIndex(obj => obj.Id == student.Id)
+        students.splice(index, 1, student);
+        sessionStorage.setItem('students', JSON.stringify(students));
+    }
+
+    deleteStudentFromSession(student: IStudent): void {
+        let students: IStudent[] = [];
+        let errorMessage: string;
+
+        this.getStudentsFromSession().subscribe({
+            next: studentData => students = studentData,
+            error: err => errorMessage = err
+        });
+        debugger;
+        let index = students.findIndex(obj => obj.Id == student.Id)
+        alert('Deleting row of ' + student.FirstName)
+        students.splice(index, 1);
+        sessionStorage.setItem('students', JSON.stringify(students));
     }
 
     private handleError(err: HttpErrorResponse) {

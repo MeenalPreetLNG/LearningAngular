@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { IProduct } from "./product";
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -22,8 +22,8 @@ export class ProductService{
 
     }
 
-    getProductsFromSession() : IProduct[] {
-        return JSON.parse(sessionStorage.getItem('products') ?? '') as IProduct[];
+    getProductsFromSession() : Observable<IProduct[]> {
+        return of(JSON.parse(sessionStorage.getItem('products') ?? '') as IProduct[]);
     }
 
 
