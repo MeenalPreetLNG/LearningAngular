@@ -94,7 +94,6 @@
                                        customerForm.get('Level')?.dirty) &&
                                       !customerForm.get('Level')?.valid }"   
                       >
-                <option value="">--Select--</option>
                 <option value="{{level}}" *ngFor="let level of levels | async">{{ level }}</option>
             </select>
             <span class="invalid-feedback">
