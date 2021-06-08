@@ -37,16 +37,9 @@
                 <input type="text" 
                        class="form-control"  
                        formControlName="Email"  
-                       [ngClass]="{'is-invalid': (customerForm.get('Email')?.touched ||
-                                                  customerForm.get('Email')?.dirty) &&
-                                                 !customerForm.get('Email')?.valid }" />
+                       [ngClass]="{'is-invalid': emailMessage}" />
                       <span class="invalid-feedback">
-                       <span *ngIf="customerForm.get('Email')?.errors?.required">
-                         Please enter your email.
-                       </span>
-                       <span *ngIf="customerForm.get('Email')?.errors?.email">
-                        Please enter your email in correct format
-                       </span>
+                       {{ emailMessage }}
                      </span>
              </div>
            </div>

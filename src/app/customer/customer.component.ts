@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Table } from 'primeng/table/table';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { debounceTime } from 'rxjs/operators';
 import { ICustomer } from './customer';
 import { CustomerServiceService } from './customer-service.service';
 
@@ -24,6 +25,12 @@ export class CustomerComponent implements OnInit {
   levels!: Observable<string[]>;
   @ViewChild('dt') dt: Table | undefined;
 
+  emailMessage: string = "";
+  
+  private validationMessages : {[key:string]: string}  = {
+    required: 'Please enter your email address.',
+    email: 'Please enter a valid email address.dsa'
+  };
 
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerServiceService,
@@ -62,6 +69,14 @@ export class CustomerComponent implements OnInit {
     })
     this.countries = this.customerService.getCountries();
     this.levels =  this.customerService.getLevels();
+
+    
+    const emailControl =  this.customerForm.get('Email');
+    console.log("Eail - ");
+    console.log(emailControl);
+    emailControl?.valueChanges.subscribe(
+      value => this.setMessage(emailControl)
+    );
   }
 
   save(): void {
@@ -141,6 +156,16 @@ export class CustomerComponent implements OnInit {
   ngOnDestory(){
       this.sub.unsubscribe();
   }
+
+  
+  setMessage(c: AbstractControl): void{
+    this.emailMessage = '';
+    if((c.touched || c.dirty) && c.errors){
+      this.emailMessage = Object.keys(c.errors).map(
+        key => this.validationMessages[key]).join(' ');
+    }
+  }
+
 
 }
 
