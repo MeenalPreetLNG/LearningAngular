@@ -30,9 +30,9 @@ export class CustomerComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute) { }
 
-              applyFilterGlobal($event: Event,stringVal: string) {
-                this.dt!.filterGlobal(($event.target as HTMLInputElement).value, 'contains');
-              }
+  applyFilterGlobal($event: Event,stringVal: string) {
+    this.dt!.filterGlobal(($event.target as HTMLInputElement).value, 'contains');
+  }
   ngOnInit(): void {
     this.customerForm = this.formBuilder.group({
       CustomerCode: '',
@@ -67,7 +67,7 @@ export class CustomerComponent implements OnInit {
   save(): void {
     var custmerCode =  this.customerForm?.value.CustomerCode;  
 
-    if(custmerCode === null || custmerCode === ""){
+    if(custmerCode){
       this.customerForm.patchValue({
         CustomerCode: Date.now()
       })
