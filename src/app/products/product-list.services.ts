@@ -17,11 +17,6 @@ export class ProductService{
     getProducts(): Observable<IProduct[]> {
         debugger;
         let products : Observable<IProduct[]> =  of(JSON.parse(localStorage.getItem("my-products") || '{}'));
-        if(products == null)
-        {
-            products = this.http.get<IProduct[]>(this.productUrl);
-            localStorage.setItem("my-products",JSON.stringify(products));
-        }
      return  products.pipe(
         tap(data =>  localStorage.setItem("my-products",JSON.stringify(data))),
         catchError(this.handleError)
@@ -38,7 +33,7 @@ export class ProductService{
 
     createOrUpdateProduct(product: IProduct): Observable<IProduct> {
         debugger;
-        var products : IProduct[] = localStorage.getItem("my-products")!=null ?  JSON.parse(localStorage.getItem("my-products") || '[]') : '[]';
+        var products : IProduct[] = localStorage.getItem("my-products")!=null ?  JSON.parse(localStorage.getItem("my-products") || '[]') : new Array();
         if(product.id==0)
         {
          product.id= products.length>0 ? products[products.length - 1].id+1 : 1;
@@ -57,13 +52,13 @@ export class ProductService{
           );
       }
 
-      deleteProduct(id : Number) : Observable<{}>{
+      deleteProduct(id : Number) : Observable<IProduct[]>{
           debugger;
-        var products : IProduct[] = localStorage.getItem("my-products")!=null ?  JSON.parse(localStorage.getItem("my-products") || '[]') : '[]';
+        var products : IProduct[] = localStorage.getItem("my-products")!=null ?  JSON.parse(localStorage.getItem("my-products") || '[]') : new Array();
         let index = products.indexOf(products.find(t=>t.id==id) as IProduct);
         products.splice(index,1);
         localStorage.setItem("my-products",JSON.stringify(products));
-        return new  Observable();
+        return this.getProducts();
       }
     
 

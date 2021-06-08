@@ -75,7 +75,7 @@ export class ProductListComponent implements OnInit {
         if (confirm(`Are you sure you want to delete this product?`)) {
           this.productService.deleteProduct(id)
             .subscribe({
-              next: () => this.getProducts(),
+              next: () => this.onSaveComplete(),
               error: (err: string) => this.errorMessage = err
             });
         }
@@ -83,6 +83,7 @@ export class ProductListComponent implements OnInit {
     }
 
     onSaveComplete() : void{
-      this.router.navigate(['/products']);
+      debugger;
+      this.getProducts();
     }
 }

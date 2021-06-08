@@ -42,6 +42,10 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
     starRating: {
       range: 'Rate the product between 1 (lowest) and 5 (highest).'
     },
+    price: {
+      required: 'Price is required',
+      range: 'Price of the product between 1 (lowest) and 5 (highest).'
+    },
     country: {
       required: 'Country is required.'
     }
@@ -62,7 +66,8 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
       tags: this.fb.array([]),
       description: '',
       productType :['Type1',Validators.required],
-      country:['',Validators.required]
+      country:['',Validators.required],
+      price:['',[Validators.required,NumberValidators.range(1,1000)]],
     });
 
     this.sub = this.route.paramMap.subscribe(
@@ -107,6 +112,7 @@ export class EditProductComponent implements OnInit,AfterViewInit , OnDestroy {
       starRating: this.product.starRating,
       description: this.product.description,
       country :this.product.country,
+      price : this.product.price,
       productType: (this.product.productType == null || this.product.productType == '' || this.product.productType == undefined) ? 'Type1' : this.product.productType
     });
     }
