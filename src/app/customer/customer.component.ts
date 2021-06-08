@@ -29,7 +29,7 @@ export class CustomerComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute) { }
 
-              applyFilterGlobal($event: any, stringVal: any) {
+              applyFilterGlobal($event: Event, stringVal: string) {
                 this.dt!.filterGlobal(($event.target as HTMLInputElement).value, 'contains');
               }
   ngOnInit(): void {
@@ -66,7 +66,7 @@ export class CustomerComponent implements OnInit {
   save(): void {
     var custmerCode =  this.customerForm?.value.CustomerCode;  
 
-    if(custmerCode === null || custmerCode === ""){
+    if(custmerCode){
       this.customerForm.patchValue({
         CustomerCode: Date.now()
       })
@@ -77,7 +77,7 @@ export class CustomerComponent implements OnInit {
       this.deleteCustomer(custmerCode);
       this.customer = Object.assign(this.customer, this.customerForm?.value);
       this.addCustomer(this.customer);
-      this.customerForm.reset()
+      this.customerForm.reset();
       this.router.navigate(['/edit/0',]);
     }
    
@@ -106,7 +106,7 @@ export class CustomerComponent implements OnInit {
     });
   }
 
-  deleteCustomer(customerCode: any){
+  deleteCustomer(customerCode: Date){
     let AllCustomers = [];
     AllCustomers = JSON.parse(localStorage.getItem("User") || '{}');
     let filteredPeople = AllCustomers.filter((item: { CustomerCode: Date; }) => item.CustomerCode !== customerCode);

@@ -20,13 +20,11 @@ export class CustomerServiceService {
 
  allCustomers(): Observable<string[]> {
   let customers = JSON.parse(localStorage.getItem("User") || '{}');
-  console.log("Customers");
-  console.log(customers);
   return of(customers);
 }
 
  addCustomer(customer: string):Observable<any> {
-  localStorage.setItem("User", customer)
+  localStorage.setItem("User", customer);
   return  of(customer)
  }
 }
