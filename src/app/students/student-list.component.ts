@@ -29,7 +29,7 @@ export class StudentListComponent implements OnInit {
 
   defaultColDef = {
     sortable: true,
-    filter: true,
+    filter: 'agTextColumnFilter',
     suppressSizeToFit: true
   };
 
