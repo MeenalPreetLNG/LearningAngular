@@ -89,16 +89,13 @@
         <div class="form-group row mb-2">
             <label class="col-md-2 col-form-label" for="courseId">Course</label>
             <div class="col-md-8">
-                <select class="form-control"
-                        id="courseId"
-                        formControlName="course"
-                        [ngClass]="{'is-invalid': (studentForm.get('course')?.touched ||
+                <select class="form-control" id="courseId" formControlName="course" [ngClass]="{'is-invalid': (studentForm.get('course')?.touched ||
                                             studentForm.get('course')?.dirty) &&
                                             !studentForm.get('course')?.valid }">
-                  <option value="" disabled selected hidden>Select a Course...</option>
-                  <option value="MCA">MCA</option>
-                  <option value="BCA">BCA</option>
-                  <option value="MBA">MBA</option>
+                    <option value="" disabled selected hidden>Select a Course...</option>
+                    <option value="MCA">MCA</option>
+                    <option value="BCA">BCA</option>
+                    <option value="MBA">MBA</option>
                 </select>
                 <!-- <input class="form-control" id="courseId" type="text" placeholder="Course " formControlName="course"
                     [ngClass]="{'is-invalid': (studentForm.get('course')?.touched ||
@@ -117,8 +114,11 @@
                 <button class="btn btn-primary mr-3" type="submit" style="width:80px"
                     [title]="studentForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
                     [disabled]="!studentForm.valid">
-                    Save
+                    <span class="fa fa-save"></span> Save
                 </button>
+                <a routerLink="/students" class="btn btn-dark pull-right">
+                   <span class="fa fa-remove"></span> Cancel
+                </a>
             </div>
         </div>
 

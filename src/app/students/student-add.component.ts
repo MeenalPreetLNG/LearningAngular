@@ -31,6 +31,7 @@ export class StudentAddComponent implements OnInit {
   emailMessage!: string;
   student!: IStudent;
   title: string = 'Add New Student';
+  id: number = 0;
 
   private validationMessages: any = {
     required: 'Please enter your email address.',
@@ -45,8 +46,8 @@ export class StudentAddComponent implements OnInit {
   ngOnInit(): void {
     const param = this.route.snapshot.paramMap.get('id');
     if (param) {
-      const id = +param;
-      this.student = this.studentSerice.getStudentByIdFromSession(id);
+      this.id = +param;
+      this.student = this.studentSerice.getStudentByIdFromSession(this.id);
       this.title = 'Edit Student';
     }
 
@@ -94,9 +95,11 @@ export class StudentAddComponent implements OnInit {
     } as IStudent;
 
     console.log(studentEdited);
-    if (this.student == null) {
+    if (this.id == 0) {
       this.studentSerice.addStudentToSession(studentEdited);
-      window.location.reload();
+      this.studentListComponent.refreshData();
+      this.student = {} as IStudent;
+      this.initializeForm(this.student);
     }
     else {
       studentEdited.Id = this.student.Id;
@@ -112,6 +115,6 @@ export class StudentAddComponent implements OnInit {
     // this.student = {} as IStudent;
     // this.initializeForm(this.student);
     // window.location.reload()
-    
+
   }
 }
