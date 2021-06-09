@@ -46,8 +46,8 @@ export class CustomerComponent implements OnInit {
     private route: ActivatedRoute) {
       this.validationMessages = {
         Name: {
-          required: 'Product name is required.',
-          minlength: 'Product name must be at least three characters.',
+          required: 'Name is required.',
+          minlength: 'Name must be at least three characters.',
         },
         Location: {
           required: 'Please select the Location.'
@@ -93,7 +93,7 @@ export class CustomerComponent implements OnInit {
     });
     
     this.route.paramMap.subscribe(parameterMap => {
-      const customerCode = parameterMap.get('id');
+      const customerCode = Number(this.route.snapshot.paramMap.get('id'));
       this.getEmployee(customerCode);
     })
     this.countries = this.customerService.getCountries();
@@ -127,7 +127,6 @@ export class CustomerComponent implements OnInit {
       this.router.navigate(['/edit/0',]);
     }
    
-    
     this.sub =   this.customerService.allCustomers().subscribe({
       next: customers => {
         this.listOfCustomers  = customers;
@@ -162,9 +161,9 @@ export class CustomerComponent implements OnInit {
     this.listOfCustomers = filteredPeople;
   }
 
-  private getEmployee(emp: any){
+  private getEmployee(emp: Date | number){
     if(emp == 0){
-    this.customerForm.reset();
+      this.customerForm.reset();
     }else{
       let AllCustomers = [];
       AllCustomers = JSON.parse(localStorage.getItem("User") || '{}');

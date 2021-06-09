@@ -6,11 +6,8 @@
     </div>
     <div class="card-body">
      <form  (ngSubmit)="save()" novalidate [formGroup]="customerForm">
+      <input type="text"   class="form-control"    formControlName="CustomerCode" hidden  />
          <div class="form-group">
-
-          <input type="text" 
-                 class="form-control"  
-                 formControlName="CustomerCode" hidden  />
           <div class="col-md-12">
               <label>Name</label>
               <input type="text" 
@@ -38,7 +35,6 @@
          </div>
 
          <div class="form-group">
-
           <div class="col-md-12">
               <label >Location </label>
               <br>
@@ -48,10 +44,6 @@
                         formControlName="Location"
                         value="{{country}}"
                         [ngClass]="{'is-invalid': displayMessage.Location }"> 
-
-                       <span class="invalid-feedback">
-                        {{displayMessage.Location}}
-                      </span>
                         {{ country }}
               </div>
                     <span class="invalid-feedback">
@@ -142,13 +134,13 @@
 <td>{{ customer.Location }}</td>
 <td>{{ customer.Level }}</td>
 <td>
-<button class="btn btn-danger" (click)="deleteCustomer(customer.CustomerCode)" >
- Delete
+<button  (click)="deleteCustomer(customer.CustomerCode)" >
+  <i class="fa fa-trash"></i>
 </button>
 </td>
 <td>
-<button class="btn btn-danger" [routerLink]="['/edit', customer.CustomerCode]" >
- Edit
+<button  [routerLink]="['/edit', customer.CustomerCode]" >
+  <i class="fa fa-edit"></i>
 </button>
 </td>
 </tr>
