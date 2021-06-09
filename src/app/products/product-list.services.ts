@@ -31,8 +31,11 @@ export class ProductService{
     }
 
     createOrUpdateProduct(product: IProduct): Observable<IProduct> {
-        var products : IProduct[] = localStorage.getItem("my-products")!=null ?  JSON.parse(localStorage.getItem("my-products") || '[]') : new Array();
-        if(product.id==0)
+      let products: IProduct[] = [];
+      if(localStorage.getItem('my-products')){
+        products = JSON.parse(localStorage.getItem("my-products") || '{}');  
+      }
+      if(product.id==0)
         {
          product.id= products.length>0 ? products[products.length - 1].id+1 : 1;
          products.push(product);
@@ -51,7 +54,10 @@ export class ProductService{
       }
 
       deleteProduct(id : Number) : Observable<IProduct[]>{
-        var products : IProduct[] = localStorage.getItem("my-products")!=null ?  JSON.parse(localStorage.getItem("my-products") || '[]') : new Array();
+        let products: IProduct[] = [];
+        if(localStorage.getItem('my-products')){
+          products = JSON.parse(localStorage.getItem("my-products") || '{}');  
+        }
         let index = products.indexOf(products.find(t=>t.id==id) as IProduct);
         products.splice(index,1);
         localStorage.setItem("my-products",JSON.stringify(products));
