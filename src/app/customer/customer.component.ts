@@ -101,8 +101,6 @@ export class CustomerComponent implements OnInit {
 
     
     const emailControl =  this.customerForm.get('Email');
-    console.log("Eail - ");
-    console.log(emailControl);
     emailControl?.valueChanges.subscribe(
       value => this.setMessage(emailControl)
     );
