@@ -76,7 +76,6 @@ export class StudentService {
             next: studentData => students = studentData,
             error: err => errorMessage = err
         });
-        debugger;
         let index = students.findIndex(obj => obj.Id == student.Id)
         alert('Deleting row of ' + student.FirstName)
         students.splice(index, 1);

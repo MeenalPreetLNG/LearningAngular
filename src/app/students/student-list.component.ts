@@ -67,10 +67,11 @@ export class StudentListComponent implements OnInit {
   ];
 
   onDeleteButtonClick(params: any) {
-    debugger;
-    let student = params.data as IStudent
-    this.studentService.deleteStudentFromSession(student);
-    this.refreshData();
+    if (confirm('Are you sure you want to delete?')) {
+      let student = params.data as IStudent
+      this.studentService.deleteStudentFromSession(student);
+      this.refreshData();
+    }
   }
 
   onEditButtonClick(params: any) {

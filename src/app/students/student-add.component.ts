@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 import { IStudent } from './student';
 import { StudentListComponent } from './student-list.component';
@@ -39,7 +39,8 @@ export class StudentAddComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private studentSerice: StudentService,
     private studentListComponent: StudentListComponent,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     const param = this.route.snapshot.paramMap.get('id');
@@ -95,14 +96,22 @@ export class StudentAddComponent implements OnInit {
     console.log(studentEdited);
     if (this.student == null) {
       this.studentSerice.addStudentToSession(studentEdited);
+      window.location.reload();
     }
     else {
       studentEdited.Id = this.student.Id;
       this.studentSerice.editStudentToSession(studentEdited);
+      this.router.routeReuseStrategy.shouldReuseRoute = function () {
+        return false;
+      }
+      this.router.navigate(['/students'])
     }
 
-    this.studentListComponent.refreshData();
+    // this.studentListComponent.refreshData();
+    // this.title = "Add New Student";
+    // this.student = {} as IStudent;
+    // this.initializeForm(this.student);
     // window.location.reload()
-    // this.router.navigateByUrl('/students')
+    
   }
 }
