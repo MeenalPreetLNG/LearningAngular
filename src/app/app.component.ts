@@ -8,7 +8,7 @@ import { IStudent } from "./students/student";
   selector: 'pm-root',
   template: `
     <nav class='navbar navbar-expand navbar-light bg-light'>
-       <a class='navbar-brand'> {{ pageTitle }} </a>
+       <a class='navbar-brand'> <h3>{{ pageTitle }}</h3> </a>
        <ul class='nav nav-pills'>
           <li><a class='nav-link' routerLink='/welcome'>Home</a></li>
           <li><a class='nav-link' routerLink='/products'>Product List</a></li>
@@ -23,7 +23,7 @@ import { IStudent } from "./students/student";
 })
 
 export class AppComponent implements OnInit {
-  pageTitle: string = 'learn'
+  pageTitle: string = 'Angular'
   studentData: IStudent[] = [{
     "Id": 1,
     "FirstName": "ABC",
