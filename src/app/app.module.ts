@@ -8,6 +8,7 @@ import { WelcomeComponent } from './home/welcome.component';
 import { RouterModule } from '@angular/router';
 import { ProductModule } from './products/product.module';
 import { SharedModule } from './shared/shared.module';
+import { StudentModule } from './students/student.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SharedModule } from './shared/shared.module';
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
     ]),
     ProductModule,
-    SharedModule
+    SharedModule,
+    StudentModule
   ],
   providers: [],
   bootstrap: [AppComponent]

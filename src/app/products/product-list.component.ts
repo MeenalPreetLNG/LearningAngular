@@ -4,57 +4,66 @@ import { IProduct } from "./product";
 import { ProductService } from "./product-list.services";
 
 @Component({
-    templateUrl: './product-list.component.html',
-    styleUrls: ['./product-list.component.css']
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
 })
 
 
-export class ProductListComponent implements OnInit { 
+export class ProductListComponent implements OnInit {
 
-    pageTitle: string = "Product List!!";
-    imageWidth: number =  50;
-    imageMargin: number = 2;
-    showImage: boolean = false;
-    errorMessage: string = '';
-    sub!: Subscription;
-    filetredProducts: IProduct[] = [];
-    products: IProduct[] = [];
+  pageTitle: string = "Product List!!";
+  imageWidth: number = 50;
+  imageMargin: number = 2;
+  showImage: boolean = false;
+  errorMessage: string = '';
+  sub!: Subscription;
+  filetredProducts: IProduct[] = [];
+  products: IProduct[] = [];
 
-    constructor(private productService: ProductService){}
- 
-    private _listFilter: string = '';
+  constructor(private productService: ProductService) { }
 
-    get listFilter(): string{
-      return this._listFilter;
-    }
+  private _listFilter: string = '';
 
-    set listFilter(value: string){
-      this._listFilter = value;
-      console.log("In Setter", value);
-      this.filetredProducts = this.performFilter(value);
-    }
+  get listFilter(): string {
+    return this._listFilter;
+  }
 
-    performFilter(filterBy: string): IProduct[]{
-        filterBy = filterBy.toLocaleLowerCase();
-        return this.products.filter((product: IProduct) => 
-            product.productName.toLocaleLowerCase().includes(filterBy));
-    }
+  set listFilter(value: string) {
+    this._listFilter = value;
+    console.log("In Setter", value);
+    this.filetredProducts = this.performFilter(value);
+  }
 
-    toggleImage(): void{
-        this.showImage = !this.showImage;
-    }
+  performFilter(filterBy: string): IProduct[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.filter((product: IProduct) =>
+      product.productName.toLocaleLowerCase().includes(filterBy));
+  }
 
-    ngOnInit(): void{
-        this.sub =   this.productService.getProducts().subscribe({
-          next: products => {
-            this.products  = products;
-            this.filetredProducts = this.products;
-          },
-          error: err => this.errorMessage = err
-        });
-    }
+  toggleImage(): void {
+    this.showImage = !this.showImage;
+  }
 
-    ngOnDestory(){
-        this.sub.unsubscribe();
-    }
+  ngOnInit(): void {
+    // this.sub =   this.productService.getProducts().subscribe({
+    //   next: products => {
+    //     this.products  = products;
+    //     this.filetredProducts = this.products;
+    //   },
+    //   error: err => this.errorMessage = err
+    // });
+
+    this.sub = this.productService.getProductsFromSession().subscribe({
+      next: products => {
+        this.products = products;
+        this.filetredProducts = this.products;
+      },
+      error: err => this.errorMessage = err
+    });
+    console.log(this.products);
+  }
+
+  ngOnDestory() {
+    this.sub.unsubscribe();
+  }
 }
