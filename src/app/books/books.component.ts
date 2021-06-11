@@ -39,11 +39,11 @@ export class BooksComponent implements OnInit {
  
 
   deleteBook(id: number): void{
-
+    let index;
     this.booksService.deleteBook(id).subscribe({
       next: customers => {
-        console.log("On Delete");
-        console.log(customers);
+        index = this.listOfBooks.findIndex(data => data.id == customers.id);
+        this.listOfBooks.splice(index,1);
       },
       error: err => this.errorMessage = err
     })
