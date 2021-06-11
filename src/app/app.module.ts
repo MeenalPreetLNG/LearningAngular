@@ -9,6 +9,8 @@ import { ProductModule } from './products/product.module';
 import { SharedModule } from './shared/shared.module';
 import { CustomerModule } from './customer/customer.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BooksComponent } from './books/books.component';
+import { BooksModule } from './books/books.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ProductModule,
     SharedModule,
     CustomerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BooksModule
   ],
   providers: [],
   bootstrap: [AppComponent]
