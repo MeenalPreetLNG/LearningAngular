@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     RouterModule.forChild([
       { 
-        path: 'books', 
+        path: 'books/:id', 
         component: BooksComponent 
       }
     ]),

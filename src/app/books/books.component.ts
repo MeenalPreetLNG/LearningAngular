@@ -15,6 +15,7 @@ export class BooksComponent implements OnInit {
   errorMessage = '';
   sub!: Subscription;
   bookForm!: FormGroup;
+  book!: IBooks;
 
   constructor(private booksService: BooksService,
               private formBuilder: FormBuilder,
@@ -25,7 +26,8 @@ export class BooksComponent implements OnInit {
     this.bookForm  = this.formBuilder.group({
       Title: ['', Validators.required],
       Author: ['', Validators.required],
-      Description: ['', Validators.required]
+      Description: ['', Validators.required],
+      Id: ''
     });
    
     this.sub =   this.booksService.getBooks().subscribe({
@@ -34,9 +36,34 @@ export class BooksComponent implements OnInit {
       },
       error: err => this.errorMessage = err
     });
+
+    this.route.paramMap.subscribe(parameterMap => {
+      const customerCode = Number(this.route.snapshot.paramMap.get('id'));
+      this.getBook(customerCode);
+    })
+
+
   }
 
- 
+  getBook(id: number){
+    if(id === 0){
+      this.bookForm.reset();
+    }else{
+      
+      this.booksService.GetBookApi(id).subscribe({
+        next: customers => {
+          this.book = customers 
+          this.bookForm.patchValue({
+            Title: this.book.title,
+            Author: this.book.author,
+            Description: this.book.description,
+            Id: this.book.id
+           })
+        },
+        error: err => this.errorMessage = err
+      })    
+    }
+  }
 
   deleteBook(id: number): void{
     let index;
@@ -51,9 +78,21 @@ export class BooksComponent implements OnInit {
   }
 
   save(): void{
-    var bookForm =  this.bookForm?.value;  
-    this.addBook(bookForm);
-    this.bookForm.reset();
+    alert("Saved Called");
+    var Id = this.bookForm?.value.Id;  
+    var bookForm =  this.bookForm?.value;
+    
+    console.log("Id" + Id);
+    console.log(bookForm);
+    if(Id === 0){
+      this.addBook(bookForm);
+      this.bookForm.reset();
+    }else{
+      this.editBook(Id, bookForm);
+      this.bookForm.reset();
+      this.router.navigate(['books/0']);
+    }
+
   }
 
   ngOnDestory(){
@@ -69,6 +108,26 @@ export class BooksComponent implements OnInit {
       },
       error: err => this.errorMessage = err
     });
+  }
+
+  editBook(Id: number,bookForm: IBooks){
+   // alert("Id " + Id + " -- Book " + bookForm);
+    this.sub =   this.booksService.EditBook(Id, bookForm).subscribe({
+      next: customers => {
+      //  this.listOfBooks.push(customers);
+      console.log("Edited");
+      console.log(customers);
+      let index = this.listOfBooks.findIndex(data => data.id == customers.id);
+  
+  
+      this.listOfBooks[index] = customers;
+      console.log(this.listOfBooks);
+      },
+      error: err => this.errorMessage = err
+    });
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    }
   }
 
 }

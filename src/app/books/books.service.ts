@@ -25,10 +25,22 @@ export class BooksService {
   }
 
    AddBook(book: IBooks): Observable<IBooks> {
-
     return this.http.post<IBooks>(this.baseUrl+"/Books/AddBook", book).pipe(
         tap(data => console.log('All', JSON.stringify(data))),
     );
    }
+
+   EditBook(Id: number, book: IBooks): Observable<IBooks> {
+     console.log(this.baseUrl+"/Books/PutBook?id="+Id,book)
+    return this.http.put<IBooks>(this.baseUrl+"/Books/PutBook?id="+Id,book).pipe(
+        tap(data => console.log('All', JSON.stringify(data))),
+    );
+   }
+
+   GetBookApi(Id: number): Observable<IBooks> {
+   return this.http.get<IBooks>(this.baseUrl+"/Books/GetBook/"+Id).pipe(
+       tap(data => console.log('All', JSON.stringify(data))),
+    );
+  }
 
 }
