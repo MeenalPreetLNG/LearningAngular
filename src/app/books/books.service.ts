@@ -24,11 +24,10 @@ export class BooksService {
     return this.http.delete<IBooks>(this.baseUrl+"/Books/Delete?id="+id);
   }
 
-   AddBook(book: IBooks): Observable<IBooks> {
-    return this.http.post<IBooks>(this.baseUrl+"/Books/AddBook", book).pipe(
-        tap(data => console.log('All', JSON.stringify(data))),
-    );
-   }
+  AddBookAPI(book: IBooks): Observable<IBooks> {
+    console.log(this.baseUrl+"/Books/AddBook",book);
+    return this.http.post<IBooks>(this.baseUrl+"/Books/AddBook",book);
+  }
 
    EditBook(Id: number, book: IBooks): Observable<IBooks> {
      console.log(this.baseUrl+"/Books/PutBook?id="+Id,book)

@@ -27,9 +27,9 @@ export class BooksComponent implements OnInit {
       Title: ['', Validators.required],
       Author: ['', Validators.required],
       Description: ['', Validators.required],
-      Id: ''
+      Id: [0]
     });
-   
+
     this.sub =   this.booksService.getBooks().subscribe({
       next: customers => {
           this.listOfBooks = customers
@@ -78,14 +78,14 @@ export class BooksComponent implements OnInit {
   }
 
   save(): void{
-    alert("Saved Called");
     var Id = this.bookForm?.value.Id;  
     var bookForm =  this.bookForm?.value;
-    
-    console.log("Id" + Id);
-    console.log(bookForm);
-    if(Id === 0){
-      this.addBook(bookForm);
+    if(!Id){
+      this.bookForm.patchValue({
+        Id: 0
+      })
+      this.bookForm?.value
+      this.addBook(this.bookForm?.value);
       this.bookForm.reset();
     }else{
       this.editBook(Id, bookForm);
@@ -102,8 +102,11 @@ export class BooksComponent implements OnInit {
 }
 
   addBook(bookForm: IBooks){
-    this.sub =   this.booksService.AddBook(bookForm).subscribe({
+
+    this.sub =   this.booksService.AddBookAPI(bookForm).subscribe({
       next: customers => {
+        console.log("--------Added-------------");
+        console.log(customers);
         this.listOfBooks.push(customers);
       },
       error: err => this.errorMessage = err
@@ -111,17 +114,11 @@ export class BooksComponent implements OnInit {
   }
 
   editBook(Id: number,bookForm: IBooks){
-   // alert("Id " + Id + " -- Book " + bookForm);
     this.sub =   this.booksService.EditBook(Id, bookForm).subscribe({
       next: customers => {
-      //  this.listOfBooks.push(customers);
-      console.log("Edited");
-      console.log(customers);
       let index = this.listOfBooks.findIndex(data => data.id == customers.id);
-  
-  
       this.listOfBooks[index] = customers;
-      console.log(this.listOfBooks);
+      this.listOfBooks
       },
       error: err => this.errorMessage = err
     });
