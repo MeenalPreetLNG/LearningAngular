@@ -11,6 +11,7 @@ import { ProductListComponent } from "./product-list.component";
 import { ProductService } from "./product-list.services";
 import { Location } from '@angular/common';
 import { DebugElement } from "@angular/core";
+import { GlobalConstants } from "../common/GlobalConstants";
 
 
 describe("Product Details",() => {
@@ -67,7 +68,7 @@ describe("Product Details",() => {
     beforeEach(() => {
         PRODUCTS =  [
             {
-                "productId": 1,
+                "id": 1,
                 "productName": "Leaf Rake",
                 "productCode": "GDN-0011",
                 "releaseDate": "March 19, 2021",
@@ -77,7 +78,7 @@ describe("Product Details",() => {
                 "imageUrl": "assets/images/leaf_rake.png"
               },
               {
-                "productId": 2,
+                "id": 2,
                 "productName": "Garden Cart",
                 "productCode": "GDN-0023",
                 "releaseDate": "March 18, 2021",
@@ -87,7 +88,7 @@ describe("Product Details",() => {
                 "imageUrl": "assets/images/garden_cart.png"
               },
               {
-                "productId": 5,
+                "id": 5,
                 "productName": "Hammer",
                 "productCode": "TBX-0048",
                 "releaseDate": "May 21, 2021",
@@ -156,18 +157,18 @@ describe("Product Details",() => {
       it('should test redirection to default to products', fakeAsync(() => {
         router.navigate(['products']);
         tick();
-        expect(location.path()).toBe('/products');
+        expect(location.path()).toBe(GlobalConstants.ProductsLink);
       }));
 
 
       it('should to products if id > 1', fakeAsync(() => {
-        const id = PRODUCTS[1].productId;
-        const path = '/products/' + 0;
+        const id = PRODUCTS[1].id;
+        const path = GlobalConstants.ProductLink + 0;
         router.navigate([path]);
         tick();
 
 
-        expect(location.path()).toBe('/products');
+        expect(location.path()).toBe(GlobalConstants.ProductsLink);
       }));
 
     })

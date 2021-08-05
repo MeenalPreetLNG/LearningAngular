@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { IProduct } from "./product";
 import { ProductService } from "./product-list.services";
@@ -20,7 +21,7 @@ export class ProductListComponent implements OnInit {
     filetredProducts: IProduct[] = [];
     products: IProduct[] = [];
 
-    constructor(private productService: ProductService){}
+    constructor(private productService: ProductService,private router : Router){}
  
     private _listFilter: string = '';
 
@@ -30,7 +31,6 @@ export class ProductListComponent implements OnInit {
 
     set listFilter(value: string){
       this._listFilter = value;
-      console.log("In Setter", value);
       this.filetredProducts = this.performFilter(value);
     }
 
@@ -45,16 +45,41 @@ export class ProductListComponent implements OnInit {
     }
 
     ngOnInit(): void{
-        this.sub =   this.productService.getProducts().subscribe({
-          next: products => {
-            this.products  = products;
-            this.filetredProducts = this.products;
-          },
-          error: err => this.errorMessage = err
-        });
+      this.getProducts();
     }
 
+    ngAfterViewInit(): void {
+    }
+
+    getProducts():void{
+      this.sub =   this.productService.getProducts().subscribe({
+        next: products => {
+          this.products  = products;
+          this.filetredProducts = this.products;
+        },
+        error: err => this.errorMessage = err
+      });
+    }
     ngOnDestory(){
         this.sub.unsubscribe();
+    }
+
+    deleteProduct(id : Number) : void {
+      if (id === 0) {
+        // Don't delete, it was never saved.
+        this.onSaveComplete();
+      } else {
+        if (confirm(`Are you sure you want to delete this product?`)) {
+          this.productService.deleteProduct(id)
+            .subscribe({
+              next: () => this.onSaveComplete(),
+              error: (err: string) => this.errorMessage = err
+            });
+        }
+      }
+    }
+
+    onSaveComplete() : void{
+      this.getProducts();
     }
 }

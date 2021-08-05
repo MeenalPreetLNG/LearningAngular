@@ -7,7 +7,7 @@ import { ConvertToSpacesPipes } from './convert-to-spaces.pipe';
 @NgModule({
   declarations: [
     StarComponent,
-    ConvertToSpacesPipes
+    ConvertToSpacesPipes,
   ],
   imports: [
     CommonModule
@@ -16,7 +16,7 @@ import { ConvertToSpacesPipes } from './convert-to-spaces.pipe';
     CommonModule,
     FormsModule,
     StarComponent,
-    ConvertToSpacesPipes
+    ConvertToSpacesPipes,
   ]
 })
 export class SharedModule { }
