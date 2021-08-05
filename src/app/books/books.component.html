@@ -1,0 +1,64 @@
+<div class="container">
+  <form (ngSubmit)="save()" novalidate [formGroup]="bookForm">
+    <input formControlName="Id"  type="number" class="form-control">
+    <div class="row">
+      <div class="col-md-8">
+         <div class="form-group">
+           <label>Name</label>
+           <input formControlName="Title" type="text" class="form-control">
+         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+         <div class="form-group">
+           <label>Author</label>
+           <input formControlName="Author" type="text" class="form-control">
+         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+         <div class="form-group">
+           <label>Description</label>
+           <input formControlName="Description" type="text" class="form-control">
+         </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-md-8">
+        <button class="btn btn-success" [disabled]="bookForm.invalid">Click</button>
+      </div>
+    </div>
+    
+  </form>
+  <br>Dirty: {{ bookForm.dirty }}
+  <br>Touched: {{ bookForm.touched }}
+  <br>Valid: {{ bookForm.valid }}
+  <br>Value: {{ bookForm.value | json }}
+</div>
+
+<hr>
+
+<div class="card">
+  <div class="card-header">
+    List Of Books
+  </div>
+  <div *ngFor="let book of listOfBooks">
+       <div class="card-body">
+         Book Name :  {{book.title}}
+         <br>
+         Author: {{book.author}}
+         <br>
+         Description: {{book.description}}
+         <br>
+         <button class="btn btn-danger" (click)="deleteBook(book.id)">Delete</button> 
+         <button class="btn btn-danger" [routerLink]="['/books', book.id]" > Edit </button>
+       </div>
+
+  </div>
+</div>
+
+

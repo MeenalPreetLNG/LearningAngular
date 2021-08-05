@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -8,6 +7,10 @@ import { WelcomeComponent } from './home/welcome.component';
 import { RouterModule } from '@angular/router';
 import { ProductModule } from './products/product.module';
 import { SharedModule } from './shared/shared.module';
+import { CustomerModule } from './customer/customer.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BooksComponent } from './books/books.component';
+import { BooksModule } from './books/books.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { SharedModule } from './shared/shared.module';
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
     ]),
     ProductModule,
-    SharedModule
+    SharedModule,
+    CustomerModule,
+    ReactiveFormsModule,
+    BooksModule
   ],
   providers: [],
   bootstrap: [AppComponent]
